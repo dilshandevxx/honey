@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 
+import Logo from "./Logo";
+
 export default function Header() {
   return (
     <motion.header
@@ -12,13 +14,16 @@ export default function Header() {
       transition={{ duration: 0.8, ease: "easeOut" }}
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-6 md:px-12 mix-blend-difference text-white"
     >
-      <Link href="/" className="group flex flex-col items-start gap-0.5">
-        <span className="font-bold text-lg tracking-tighter leading-none">
-            NEXUS—
-        </span>
-        <span className="font-mono text-[10px] tracking-widest opacity-70 group-hover:opacity-100 transition-opacity">
-            EST. 2024
-        </span>
+      <Link href="/" className="group flex items-center gap-3">
+        <Logo className="w-8 h-8 group-hover:text-honey-red transition-colors duration-300" />
+        <div className="flex flex-col items-start gap-0.5">
+            <span className="font-bold text-lg tracking-tighter leading-none">
+                NEXUS
+            </span>
+            <span className="font-mono text-[10px] tracking-widest opacity-70 group-hover:opacity-100 transition-opacity">
+                EST. 2024
+            </span>
+        </div>
       </Link>
 
       <nav className="flex items-center gap-8">
