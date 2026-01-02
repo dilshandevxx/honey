@@ -24,9 +24,9 @@ export default function Header() {
       <nav className="flex items-center gap-8">
         <ul className="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-widest">
             <li><Link href="/work" className="hover:text-honey-blue transition-colors">WORK</Link></li>
-            <li><Link href="/#services" className="hover:text-honey-blue transition-colors">SERVICES</Link></li>
-            <li><Link href="/#about" className="hover:text-honey-blue transition-colors">ABOUT</Link></li>
-            <li><Link href="/#contact" className="hover:text-honey-blue transition-colors">CONTACT</Link></li>
+            <li><Link href="/services" className="hover:text-honey-blue transition-colors">SERVICES</Link></li>
+            <li><Link href="/about" className="hover:text-honey-blue transition-colors">ABOUT</Link></li>
+            <li><Link href="/contact" className="hover:text-honey-blue transition-colors">CONTACT</Link></li>
         </ul>
 
         <button className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest hover:text-honey-blue transition-colors group">
