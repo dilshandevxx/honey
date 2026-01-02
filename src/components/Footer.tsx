@@ -1,3 +1,5 @@
+import Logo from "./Logo";
+
 export default function Footer() {
     return (
       <footer className="w-full bg-honey-red text-white py-24 px-4 md:px-12 flex flex-col justify-between min-h-[50vh]">
@@ -15,10 +17,11 @@ export default function Footer() {
           </div>
         </div>
   
-        <div className="mt-20">
-          <h1 className="text-[15vw] leading-[0.8] font-bold tracking-tighter text-center md:text-left">
-            NEXUS—
-          </h1>
+        <div className="mt-20 flex items-center gap-8 opacity-20 hover:opacity-100 transition-opacity duration-500">
+             <Logo className="w-[10vw] h-[10vw]" />
+             <h1 className="text-[15vw] leading-[0.8] font-bold tracking-tighter text-center md:text-left">
+                NEXUS
+             </h1>
         </div>
       </footer>
     );
