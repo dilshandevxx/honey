@@ -7,26 +7,26 @@ import StarWarp from "./StarWarp";
 const BEFORE_CARDS = [
   {
     id: "01",
-    title: "LOVE BOMBING.",
-    desc: "Agencies romance you like a rising hollywood starlet. Rolling out the red carpet with grand promises of global adoration, but delivering ghosting and silence.",
+    title: "THE WAITING GAME.",
+    desc: "'In 2 weeks' becomes 2 months. You lose momentum while they make excuses. Your business can't afford to pause.",
     position: { top: "15%", left: "5%" }
   },
   {
     id: "02",
-    title: "LEGACY MONUMENTS.",
-    desc: "They build you a tank when you needed a Ferrari. Bulky, slow, hard-to-maintain codebases that require a dedicated team just to keep the lights on.",
+    title: "COOKIE-CUTTER.",
+    desc: "Your site looks exactly like a cheap template. It has no soul, no impact, and your customers forget it instantly.",
     position: { top: "50%", right: "5%" }
   },
   {
     id: "03",
-    title: "THE B-TEAM SWITCH.",
-    desc: "You get sold by the partners, but serviced by the juniors. The bait is expertise; the switch is inexperience learning on your dime.",
+    title: "GHOSTING.",
+    desc: "Once you pay the deposit, good luck getting them on the phone. You're left in the dark wondering if work is even happening.",
     position: { bottom: "10%", left: "10%" }
   },
   {
     id: "04",
-    title: "SAFE & BORING.",
-    desc: "Design by committee. The result is a beige compromise that offends no one, inspires no one, and converts no one.",
+    title: "HIDDEN COSTS.",
+    desc: "Every small change is an extra fee. The final bill is double what you expected and the budget is blown.",
     position: { top: "30%", left: "40%" }
   },
 ];
@@ -34,26 +34,26 @@ const BEFORE_CARDS = [
 const AFTER_CARDS = [
   {
     id: "05",
-    title: "BLEEDING EDGE.",
-    desc: "We build on the modern web. React Server Components, AI integration, and 100/100 performance scores. Future-proof is our default setting.",
+    title: "RAPID LAUNCH.",
+    desc: "We ship fast. Your business starts growing while competitors are still planning. Momentum is your best asset.",
     position: { top: "10%", right: "10%" }
   },
   {
     id: "06",
-    title: "SELL BEAUTIFULLY.",
-    desc: "Ogilvy said it best: It's not creative unless it sells. Every pixel is engineered to convert, wrapped in an aesthetic so premium it commands attention.",
+    title: "BUILT TO SELL.",
+    desc: "We don't just make 'pretty' sites. We build high-performance sales machines designed to convert visitors into buyers.",
     position: { top: "45%", left: "5%" }
   },
   {
     id: "07",
     title: "DIRECT ACCESS.",
-    desc: "No middle layers. You work directly with the founders and creators, not an account manager playing a game of telephone.",
+    desc: "No middle-men. You talk directly to the experts building your future. Clear communication, zero fluff.",
     position: { bottom: "15%", right: "5%" }
   },
   {
     id: "08",
-    title: "SPEED AS A FEATURE.",
-    desc: "We ship in weeks, not months. Momentum is oxygen for modern brands. We don't just build fast; we build to last.",
+    title: "TOTAL OWNERSHIP.",
+    desc: "No ongoing traps. We build it, we hand it over, and you own it 100%. No monthly 'maintenance' hostages.",
     position: { top: "25%", left: "35%" }
 
   },
@@ -122,7 +122,7 @@ export default function BeforeAfter() {
                 <h2 className="text-[12vw] leading-none font-bold text-transparent stroke-text font-sans tracking-tight opacity-30">
                   BEFORE
                   <br />
-                  <span className="text-white/20 ml-20">// HONEYⒸ</span>
+                  <span className="text-white/20 ml-20">// NEXUSⒸ</span>
                 </h2>
              </div>
           </div>
@@ -179,12 +179,12 @@ export default function BeforeAfter() {
            {/* Main Title */}
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-0">
              <span className="absolute top-[-5rem] left-1/2 -translate-x-1/2 font-mono text-xs text-honey-red/50 tracking-[0.2em]">
-                    AFTER HONEY
+                    AFTER NEXUS
              </span>
              <h2 className="text-[12vw] leading-none font-bold text-honey-red tracking-tight drop-shadow-[0_0_30px_rgba(255,77,77,0.5)] opacity-50">
                   AFTER
                   <br />
-                  <span className="ml-20">// HONEYⒸ</span>
+                  <span className="ml-20">// NEXUSⒸ</span>
                 </h2>
            </div>
 
