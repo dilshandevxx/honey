@@ -17,7 +17,7 @@ export default function Footer() {
   
         <div className="mt-20">
           <h1 className="text-[15vw] leading-[0.8] font-bold tracking-tighter text-center md:text-left">
-            HONEY—
+            NEXUS—
           </h1>
         </div>
       </footer>

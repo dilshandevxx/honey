@@ -15,8 +15,8 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio | WithHoney Style",
-  description: "A digital portfolio inspired by WithHoney.com",
+  title: "NEXUS | Digital Agency",
+  description: "Elite digital experiences. We are the anti-agency.",
 };
 
 export default function RootLayout({

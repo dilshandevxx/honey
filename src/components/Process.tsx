@@ -37,90 +37,78 @@ const steps = [
 
 export default function Process() {
   return (
-    <section className="w-full bg-honey-black text-white py-32" id="process">
+    <section className="w-full bg-[#050505] text-white py-32 relative overflow-hidden" id="process">
+      
+      {/* Background Gradients */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-honey-red/5 rounded-full blur-[120px]" />
+          <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-honey-blue/5 rounded-full blur-[100px]" />
+      </div>
+
       {/* Container */}
-      <div className="max-w-[1800px] mx-auto px-6 md:px-12">
+      <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10">
         
-        {/* Header Line */}
-        <motion.div 
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.5, ease: "circOut" }}
-          className="w-full h-[1px] bg-white/20 mb-8 origin-left"
-        />
-
         {/* Header Meta */}
-        <div className="flex justify-between items-start mb-24 font-mono text-xs text-white/50 tracking-widest uppercase">
-          <motion.span
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-          >
-            [ 06 / 09 ]
-          </motion.span>
-          <motion.span
-             initial={{ opacity: 0, x: 20 }}
-             whileInView={{ opacity: 1, x: 0 }}
-             viewport={{ once: true }}
-             transition={{ delay: 0.5 }}
-          >
-            How We Sprint
-          </motion.span>
-        </div>
-
-        {/* Main Title */}
-        <div className="mb-32">
-          <motion.h2 
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-[10vw] leading-[0.85] font-bold tracking-tighter"
-          >
-            <span className="block text-transparent stroke-text hover:text-white transition-colors duration-700 cursor-default">
-              HOW WE
+        <div className="flex justify-between items-end mb-24 border-b border-white/10 pb-8">
+          <div>
+            <span className="block font-mono text-xs text-honey-red tracking-[0.2em] mb-4">
+               [ 06 / 09 ]
             </span>
-            <span className="block text-white">
-              SPRINT
-            </span>
-          </motion.h2>
+            <h2 className="text-[6vw] md:text-6xl leading-[0.85] font-bold tracking-tighter uppercase">
+              How We <span className="text-transparent stroke-text">Sprint</span>
+            </h2>
+          </div>
+          <p className="hidden md:block font-mono text-xs text-gray-500 max-w-sm text-right leading-relaxed uppercase">
+             From chaos to clarity.<br/>
+             Our proven methodology for rapid deployment.
+          </p>
         </div>
 
         {/* Steps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 border-t border-white/10 pt-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           {steps.map((step, index) => (
             <motion.div
               key={step.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.6 }}
-              className="flex flex-col justify-between h-full group min-h-[300px]"
+              transition={{ delay: index * 0.1, duration: 0.8, ease: "backOut" }}
+              className="group relative h-full min-h-[400px] p-8 rounded-[2rem] bg-[#0A0A0A] border border-white/5 hover:border-honey-red/40 transition-all duration-500 overflow-hidden"
             >
-              <div>
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="font-mono text-sm text-honey-red">
-                    [{step.id}]
-                  </span>
-                  <div className="h-[1px] flex-grow bg-white/10 group-hover:bg-honey-red transition-colors duration-300" />
+              {/* Hover Glow */}
+              <div className="absolute inset-0 bg-radial-gradient from-honey-red/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" />
+              
+              {/* Content */}
+              <div className="relative z-10 flex flex-col justify-between h-full">
+                
+                {/* Top: ID */}
+                <div className="flex justify-between items-start">
+                    <span className="font-mono text-xl text-white/20 group-hover:text-honey-red transition-colors duration-300">
+                        {`// ${step.id}`}
+                    </span>
+                    {/* Status Dot */}
+                    <div className="w-2 h-2 rounded-full bg-white/10 group-hover:bg-honey-red group-hover:shadow-[0_0_10px_#FF3333] transition-all duration-300" />
                 </div>
-                
-                <h3 className="text-2xl font-bold uppercase tracking-tight mb-4">
-                  {step.title}
-                </h3>
-                
-                <p className="text-sm text-gray-400 leading-relaxed max-w-[90%]">
-                  {step.description}
-                </p>
+
+                {/* Middle: Title & Desc */}
+                <div className="mt-12">
+                     <h3 className="text-3xl font-bold uppercase tracking-tighter mb-6 group-hover:translate-x-2 transition-transform duration-500">
+                        {step.title}
+                     </h3>
+                     <p className="font-mono text-xs text-gray-500 leading-relaxed uppercase tracking-wide group-hover:text-gray-300 transition-colors duration-300">
+                        {step.description}
+                     </p>
+                </div>
+
+                {/* Bottom: Duration */}
+                 <div className="mt-12 pt-6 border-t border-white/5 group-hover:border-honey-red/20 transition-colors duration-500">
+                    <div className="flex justify-between items-center text-xs font-mono uppercase tracking-widest text-honey-blue/80">
+                         <span>Est. Time</span>
+                         <span>{step.duration}</span>
+                    </div>
+                 </div>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-dashed border-white/10">
-                <span className="font-mono text-xs text-white/30 uppercase tracking-widest">
-                  Est. {step.duration}
-                </span>
-              </div>
             </motion.div>
           ))}
         </div>

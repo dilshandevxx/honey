@@ -148,11 +148,11 @@ export default function BeforeAfter() {
                  const midExit = start + 0.06;  // Start exiting
                  const end = start + duration;  // Finish exiting
 
-                 // 1. Enter: 120vh -> 0vh
-                 // 2. Hold: 0vh
-                 // 3. Exit: 0vh -> -50vh
+                 // 1. Enter: 120vh -> -5vh (Slow drift begins)
+                 // 2. Read: -5vh -> -15vh (Slow drift continues)
+                 // 3. Exit: -15vh -> -80vh (Accelerate out)
                  // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const y = useTransform(scrollYProgress, [start, midEnter, midExit, end], ["120vh", "0vh", "0vh", "-50vh"]);
+                 const y = useTransform(scrollYProgress, [start, midEnter, midExit, end], ["120vh", "-5vh", "-15vh", "-80vh"]);
                  
                  // 1. Enter: Opacity 0 -> 1
                  // 2. Hold: Opacity 1
@@ -165,8 +165,9 @@ export default function BeforeAfter() {
                  const x = useTransform(scrollYProgress, [midExit, end], [0, card.exitX]);
 
                  // Rotation & Twist using the card's specific rotation prop
+                 // Stable during read, dramatic twist on exit
                  // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const rotate = useTransform(scrollYProgress, [start, end], [card.rotation, card.rotation * 1.5]);
+                 const rotate = useTransform(scrollYProgress, [start, midExit, end], [card.rotation, card.rotation, card.rotation * 4]);
 
                  // Optional: Scale down slightly on exit
                  // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -183,15 +184,23 @@ export default function BeforeAfter() {
                             scale,
                             ...card.position 
                         }}
-                        className="absolute w-[90vw] md:w-[400px] p-8 bg-black/80 border border-white/10 rounded-3xl backdrop-blur-xl shadow-2xl"
+                        className="absolute w-[90vw] md:w-[450px] p-10 rounded-[2rem] z-20 group"
                      >
-                         <div className="flex justify-between items-start mb-6 border-b border-white/10 pb-4">
-                            <h3 className="text-xl font-bold text-white tracking-tighter">{card.title}</h3>
-                            <span className="text-honey-red font-mono text-lg">{`[${card.id}]`}</span>
+                         {/* Deep Onyx Card Style */}
+                         <div className="absolute inset-0 bg-[#0A0A0A] opacity-95 rounded-[2rem] border border-white/5" />
+                         
+                         {/* Inner Glow */}
+                         <div className="absolute inset-0 bg-radial-gradient from-white/5 to-transparent opacity-20 rounded-[2rem]" />
+
+                         <div className="relative z-10 flex flex-col h-full justify-between min-h-[300px]">
+                            <div className="flex justify-between items-start mb-12">
+                                <h3 className="text-3xl font-bold text-white tracking-tighter uppercase">{card.title}</h3>
+                                <span className="text-[#FF3333] font-mono text-xl tracking-widest">{`[${card.id}]`}</span>
+                            </div>
+                            <p className="font-mono text-sm text-gray-400 leading-relaxed uppercase tracking-wide">
+                                {card.desc}
+                            </p>
                          </div>
-                         <p className="font-mono text-xs text-gray-400 leading-relaxed uppercase">
-                            {card.desc}
-                         </p>
                      </motion.div>
                  )
               })}
@@ -230,7 +239,7 @@ export default function BeforeAfter() {
                  const end = start + duration;
                  
                   // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const y = useTransform(scrollYProgress, [start, midEnter, midExit, end], ["120vh", "0vh", "0vh", "-50vh"]);
+                 const y = useTransform(scrollYProgress, [start, midEnter, midExit, end], ["120vh", "-5vh", "-15vh", "-80vh"]);
                  // eslint-disable-next-line react-hooks/rules-of-hooks
                  const opacity = useTransform(scrollYProgress, [start, midEnter, midExit, end], [0, 1, 1, 0]);
                  
@@ -239,8 +248,9 @@ export default function BeforeAfter() {
                  const x = useTransform(scrollYProgress, [midExit, end], [0, card.exitX]);
 
                  // Rotation & Twist
+                 // Stable during read, dramatic twist on exit
                  // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const rotate = useTransform(scrollYProgress, [start, end], [card.rotation, card.rotation * 1.5]);
+                 const rotate = useTransform(scrollYProgress, [start, midExit, end], [card.rotation, card.rotation, card.rotation * 4]);
 
                  // eslint-disable-next-line react-hooks/rules-of-hooks
                  const scale = useTransform(scrollYProgress, [midExit, end], [1, 0.8]);
@@ -256,15 +266,23 @@ export default function BeforeAfter() {
                             scale,
                             ...card.position 
                         }}
-                        className="absolute w-[90vw] md:w-[400px] p-8 bg-black/90 border border-honey-red/30 rounded-3xl backdrop-blur-xl shadow-[0_0_50px_rgba(255,77,77,0.15)]"
+                        className="absolute w-[90vw] md:w-[450px] p-10 rounded-[2rem] z-20 group"
                      >
-                         <div className="flex justify-between items-start mb-6 border-b border-honey-red/20 pb-4">
-                            <h3 className="text-xl font-bold text-white tracking-tighter">{card.title}</h3>
-                            <span className="text-honey-red font-mono text-lg">{`[${card.id}]`}</span>
+                         {/* Deep Onyx Card Style */}
+                         <div className="absolute inset-0 bg-[#0A0A0A] opacity-95 rounded-[2rem] border border-[#FF3333]/20" />
+                         
+                         {/* Inner Glow */}
+                         <div className="absolute inset-0 bg-radial-gradient from-[#FF3333]/10 to-transparent opacity-30 rounded-[2rem]" />
+
+                         <div className="relative z-10 flex flex-col h-full justify-between min-h-[300px]">
+                            <div className="flex justify-between items-start mb-12">
+                                <h3 className="text-3xl font-bold text-white tracking-tighter uppercase">{card.title}</h3>
+                                <span className="text-[#FF3333] font-mono text-xl tracking-widest">{`[${card.id}]`}</span>
+                            </div>
+                            <p className="font-mono text-sm text-gray-400 leading-relaxed uppercase tracking-wide">
+                                {card.desc}
+                            </p>
                          </div>
-                         <p className="font-mono text-xs text-gray-400 leading-relaxed uppercase">
-                            {card.desc}
-                         </p>
                      </motion.div>
                  )
               })}
