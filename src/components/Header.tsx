@@ -14,7 +14,7 @@ export default function Header() {
     >
       <Link href="/" className="group flex flex-col items-start gap-0.5">
         <span className="font-bold text-lg tracking-tighter leading-none">
-            HONEY—
+            NEXUS—
         </span>
         <span className="font-mono text-[10px] tracking-widest opacity-70 group-hover:opacity-100 transition-opacity">
             EST. 2024
