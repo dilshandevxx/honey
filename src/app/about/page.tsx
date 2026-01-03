@@ -3,6 +3,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import About from "@/components/About";
+import Stats from "@/components/Stats";
 import { motion } from "framer-motion";
 import StarWarp from "@/components/StarWarp";
 
@@ -40,6 +41,8 @@ export default function AboutPage() {
         <div className="-mt-20 relative z-20"> 
           <About />
         </div>
+
+        <Stats />
 
         {/* Philosophy & Approach Grid */}
         <section className="py-32 px-6 md:px-12 border-t border-white/10 bg-black/50 backdrop-blur-sm">
