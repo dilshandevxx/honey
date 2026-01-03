@@ -61,34 +61,41 @@ export default function ServicesList() {
   }, [mouseX, mouseY]);
 
   return (
-    <section className="relative w-full bg-honey-black py-40 px-4 md:px-12 z-0 pb-64">
+    <section className="relative w-full bg-transparent py-32 px-4 md:px-12 z-0 pb-64">
       <div className="max-w-7xl mx-auto flex flex-col gap-0 relative z-10">
-        <h2 className="text-sm font-mono tracking-widest text-honey-blue/50 uppercase mb-20 ml-1">Process / Capabilities</h2>
+        <div className="mb-20 pl-1 border-l border-honey-blue/30">
+             <h2 className="text-sm font-mono tracking-widest text-honey-blue uppercase pl-4">Process / Capabilities</h2>
+        </div>
 
         {services.map((service, index) => (
           <div 
             key={service.id} 
-            className="group relative flex flex-col md:flex-row items-baseline justify-between border-t border-white/10 py-16 hover:bg-white/5 transition-colors duration-500 cursor-context-menu"
+            className="group relative flex flex-col md:flex-row items-baseline justify-between border-t border-white/10 py-16 transition-all duration-500 cursor-none"
             onMouseEnter={() => setActiveService(index)}
             onMouseLeave={() => setActiveService(null)}
           >
+            {/* Hover Background */}
+            <div className="absolute inset-0 -mx-6 px-6 bg-white/0 group-hover:bg-white/[0.02] transition-colors duration-500 rounded-sm" />
             
             {/* Left: Phase & Title */}
-            <div className="w-full md:w-1/2 flex flex-col gap-2 relative z-10 pointer-events-none">
-                 <span className="font-mono text-honey-dim text-xs tracking-widest opacity-50">{service.phase}</span>
-                 <h3 className="text-5xl md:text-8xl font-bold uppercase tracking-tighter text-white group-hover:text-honey-blue transition-colors duration-300">
+            <div className="w-full md:w-1/2 flex flex-col gap-4 relative z-10 pointer-events-none pl-6 md:pl-0">
+                 <div className="flex items-center gap-4">
+                     <span className="font-mono text-honey-dim text-xs tracking-widest opacity-50 group-hover:text-honey-blue transition-colors">{service.phase}</span>
+                     <div className="h-[1px] w-12 bg-white/10 group-hover:w-24 group-hover:bg-honey-blue/50 transition-all duration-500" />
+                 </div>
+                 <h3 className="text-5xl md:text-8xl font-bold uppercase tracking-tighter text-white group-hover:text-transparent group-hover:stroke-text transition-all duration-300">
                     {service.title}
                  </h3>
             </div>
 
             {/* Right: Description & Tags */}
-             <div className="w-full md:w-1/3 flex flex-col gap-6 mt-8 md:mt-0 relative z-10 pointer-events-none">
-                <p className="text-lg text-white/60 font-light leading-relaxed">
+             <div className="w-full md:w-1/3 flex flex-col gap-8 mt-8 md:mt-0 relative z-10 pointer-events-none pl-6 md:pl-0">
+                <p className="text-lg text-white/60 font-light leading-relaxed group-hover:text-white/90 transition-colors">
                     {service.description}
                 </p>
                 <div className="flex flex-wrap gap-2">
                     {service.tags.map(tag => (
-                        <span key={tag} className="px-3 py-1 border border-white/10 rounded-full text-xs font-mono text-white/40 uppercase">
+                        <span key={tag} className="px-3 py-1 border border-white/10 rounded-sm text-[10px] font-mono text-white/40 uppercase bg-black/20 group-hover:border-white/20 group-hover:text-white/70 transition-colors">
                             {tag}
                         </span>
                     ))}
@@ -101,7 +108,7 @@ export default function ServicesList() {
 
       {/* Floating Preview (Desktop Only) */}
       <motion.div
-        className="fixed top-0 left-0 w-[400px] h-[500px] pointer-events-none z-[50] hidden md:block overflow-hidden rounded-sm"
+        className="fixed top-0 left-0 w-[400px] h-[500px] pointer-events-none z-[50] hidden md:block overflow-hidden"
         style={{
             x: previewX,
             y: previewY,
@@ -113,22 +120,30 @@ export default function ServicesList() {
             {activeService !== null && (
                 <motion.div
                     key={activeService}
-                    initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-                    transition={{ duration: 0.3 }}
-                    className="absolute inset-0 bg-honey-dark border border-honey-blue/20"
+                    initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    exit={{ opacity: 0, scale: 0.8, rotate: 5 }}
+                    transition={{ duration: 0.4, ease: "circOut" }}
+                    className="absolute inset-0 bg-neutral-900 border border-white/10 shadow-2xl shadow-black/80"
                 >
                     <Image 
                         src={services[activeService].image} 
                         alt={services[activeService].title}
                         fill
-                        className="object-cover opacity-60 grayscale group-hover:grayscale-0 transition-all duration-500"
+                        className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                         priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-honey-black via-transparent to-transparent opacity-80" />
-                    <div className="absolute bottom-4 left-4 font-mono text-honey-blue text-xs uppercase tracking-widest">
-                        {services[activeService].phase} // ILLUSTRATION
+                    
+                    {/* Overlay Graphics */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
+                    <div className="absolute inset-0 border border-white/5 m-2" />
+                    
+                    <div className="absolute bottom-6 left-6 right-6">
+                         <div className="flex justify-between items-end border-b border-white/20 pb-4 mb-4">
+                             <span className="font-mono text-honey-blue text-xs uppercase tracking-widest">{services[activeService].phase}</span>
+                             <span className="font-mono text-white/40 text-xs">0{activeService + 1}/04</span>
+                         </div>
+                         <h4 className="text-2xl font-bold uppercase">{services[activeService].title}</h4>
                     </div>
                 </motion.div>
             )}
