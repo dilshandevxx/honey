@@ -1,117 +1,99 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const steps = [
   {
     id: "01",
     title: "Discovery",
-    description: "We dive deep into your business goals, audience, and challenges. We ask the hard questions to uncover the core opportunities.",
-    duration: "1-2 WEEKS"
+    description: "We immerse ourselves in your world. Uncovering hidden truths, defining the audience, and setting the North Star.",
   },
   {
     id: "02",
     title: "Strategy",
-    description: "We map out the technical architecture and user experience. No guessing—just a solid blueprint for success.",
-    duration: "2 WEEKS"
+    description: "The blueprint for victory. We map user journeys, technical architecture, and the path of least resistance to impact.",
   },
   {
     id: "03",
     title: "Design",
-    description: "We craft visual systems that are as beautiful as they are functional. Expect high-fidelity prototypes and immersive interactions.",
-    duration: "4 WEEKS"
+    description: "Visual systems that breathe. We craft interfaces that feel inevitable, blending beauty with brutalist functionality.",
   },
   {
     id: "04",
     title: "Development",
-    description: "Our engineers build with modern, scalable tech stacks. We prioritize performance, security, and clean code.",
-    duration: "8 WEEKS"
+    description: "Code as craft. We build scalable, bulletproof engines using modern stacks that prioritize speed and security.",
   },
   {
     id: "05",
     title: "Evolution",
-    description: "Launch is just the beginning. We continually optimize and iterate based on real user data and changing market needs.",
-    duration: "ONGOING"
+    description: "Launch is day one. We iterate based on real-world data, ensuring your product grows sharper with time.",
   }
 ];
 
 export default function Process() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"]
+  });
+
   return (
-    <section className="w-full bg-[#050505] text-white py-32 relative overflow-hidden" id="process">
+    <section ref={containerRef} className="w-full bg-[#030303] text-white py-48 relative overflow-hidden" id="process">
       
-      {/* Background Gradients */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-honey-red/5 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-honey-blue/5 rounded-full blur-[100px]" />
+      {/* Moving Spotlight */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none overflow-hidden">
+          <motion.div 
+            style={{ top: useTransform(scrollYProgress, [0, 1], ["0%", "80%"]) }}
+            className="absolute left-1/2 -translate-x-1/2 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] bg-honey-red/10 rounded-full blur-[150px] mix-blend-screen transition-all duration-100 ease-linear" 
+          />
       </div>
 
-      {/* Container */}
-      <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10">
+      <div className="max-w-4xl mx-auto px-6 relative z-10">
         
-        {/* Header Meta */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-24 border-b border-white/10 pb-8 gap-8">
-          <div>
-            <span className="block font-mono text-xs text-honey-red tracking-[0.2em] mb-4">
-               [ 06 / 09 ]
+        {/* Header */}
+        <div className="text-center mb-40">
+            <span className="font-mono text-xs text-honey-red tracking-[0.2em] uppercase block mb-6">
+                 [ The Path ]
             </span>
-            <h2 className="text-[6vw] md:text-8xl leading-[0.85] font-bold tracking-tighter uppercase relative z-10">
-              From Idea <br/>
-              <span className="text-transparent stroke-text pl-4 md:pl-0">To Impact</span>
+            <h2 className="text-5xl md:text-7xl font-light tracking-tighter uppercase">
+                 From Idea <span className="italic font-serif text-white/50">To Impact</span>
             </h2>
-          </div>
-          <p className="hidden md:block font-mono text-xs text-white/40 max-w-sm text-right leading-relaxed uppercase tracking-wide">
-             From chaos to clarity.<br/>
-             Our proven methodology for rapid deployment.
-          </p>
         </div>
 
-        {/* Steps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-          {steps.map((step, index) => (
-            <motion.div
-              key={step.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.8, ease: "backOut" }}
-              className="group relative h-full min-h-[400px] p-8 bg-neutral-900/40 backdrop-blur-sm border border-white/5 hover:border-honey-red/50 transition-all duration-500 overflow-hidden"
-            >
-              {/* Hover Glow */}
-              <div className="absolute inset-0 bg-gradient-to-b from-honey-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              {/* Content */}
-              <div className="relative z-10 flex flex-col justify-between h-full">
-                
-                {/* Top: ID */}
-                <div className="flex justify-between items-start">
-                    <span className="font-mono text-xl text-white/20 group-hover:text-honey-red transition-colors duration-300">
-                        {`// ${step.id}`}
-                    </span>
-                    {/* Status Dot */}
-                    <div className="w-1.5 h-1.5 rounded-sm bg-white/10 group-hover:bg-honey-red group-hover:shadow-[0_0_10px_#FF3333] transition-all duration-300" />
-                </div>
+        {/* Vertical Steps */}
+        <div className="flex flex-col gap-32 md:gap-48">
+            {steps.map((step, index) => (
+                <motion.div
+                    key={step.id}
+                    initial={{ opacity: 0.2, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, margin: "-20% 0px -20% 0px" }}
+                    transition={{ duration: 0.8 }}
+                    className="group relative text-center"
+                >
+                    {/* Background Light Scale Trigger */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[200%] bg-transparent" />
 
-                {/* Middle: Title & Desc */}
-                <div className="mt-12">
-                     <h3 className="text-3xl font-bold uppercase tracking-tighter mb-6 group-hover:translate-x-2 transition-transform duration-500">
-                        {step.title}
-                     </h3>
-                     <p className="font-mono text-[10px] text-white/40 leading-relaxed uppercase tracking-wider group-hover:text-white/70 transition-colors duration-300">
-                        {step.description}
-                     </p>
-                </div>
+                    <div className="relative inline-block">
+                        {/* Huge Number */}
+                        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15rem] md:text-[20rem] font-serif text-white/[0.03] select-none -z-10 group-hover:text-white/[0.05] transition-colors duration-700">
+                            {step.id}
+                        </span>
 
-                {/* Bottom: Duration */}
-                 <div className="mt-12 pt-6 border-t border-white/5 group-hover:border-honey-red/20 transition-colors duration-500">
-                    <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest text-honey-red/80">
-                         <span>Timeline</span>
-                         <span>{step.duration}</span>
+                        {/* Title */}
+                        <h3 className="text-4xl md:text-6xl font-bold uppercase tracking-tight mb-8 group-hover:text-honey-blue transition-colors duration-500">
+                            {step.title}
+                        </h3>
+                        
+                        {/* Description */}
+                        <p className="max-w-md mx-auto text-lg md:text-xl text-white/60 font-light leading-relaxed group-hover:text-white transition-colors duration-500">
+                            {step.description}
+                        </p>
                     </div>
-                 </div>
-              </div>
 
-            </motion.div>
-          ))}
+                </motion.div>
+            ))}
         </div>
 
       </div>
