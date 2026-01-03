@@ -27,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+        suppressHydrationWarning
         className={`${inter.variable} ${spaceMono.variable} antialiased bg-honey-black text-white selection:bg-honey-blue selection:text-honey-black`}
       >
         <SmoothScroll />
