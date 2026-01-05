@@ -45,7 +45,7 @@ export default function Process() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none overflow-hidden">
           <motion.div 
             style={{ top: useTransform(scrollYProgress, [0, 1], ["0%", "80%"]) }}
-            className="absolute left-1/2 -translate-x-1/2 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] bg-honey-red/10 rounded-full blur-[150px] mix-blend-screen transition-all duration-100 ease-linear" 
+            className="absolute left-1/2 -translate-x-1/2 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] bg-honey-blue/10 rounded-full blur-[150px] mix-blend-screen transition-all duration-100 ease-linear" 
           />
       </div>
 
@@ -53,7 +53,7 @@ export default function Process() {
         
         {/* Header */}
         <div className="text-center mb-40">
-            <span className="font-mono text-xs text-honey-red tracking-[0.2em] uppercase block mb-6">
+            <span className="font-mono text-xs text-honey-blue tracking-[0.2em] uppercase block mb-6">
                  [ The Path ]
             </span>
             <h2 className="text-5xl md:text-7xl font-light tracking-tighter uppercase">

@@ -1,143 +1,119 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
-import { useRef } from "react";
-
-const TRANSFORMATIONS = [
-  {
-    before: "CONFUSION",
-    after: "CLARITY",
-    desc: "From chaotic, scattered messaging to a crystal-clear brand narrative that cuts through the noise.",
-    color: "from-gray-900 to-black" // Dark/Foggy
-  },
-  {
-    before: "INVISIBLE",
-    after: "ICONIC",
-    desc: "Stop blending in. We forged visual identities that command attention and impossible-to-ignore presence.",
-    color: "from-[#0A0A0A] to-[#050505]" // Deep
-  },
-  {
-    before: "STATIC",
-    after: "KINETIC",
-    desc: "Your brand wasn't meant to stand still. We inject motion, life, and energy into every interaction.",
-    color: "from-[#1a0505] to-black" // Red-tinted
-  },
-  {
-    before: "SILENCE",
-    after: "IMPACT",
-    desc: "Don't just speak. Resonate. We turn passive visitors into active, engaged evangelists.",
-    color: "from-[#050f1a] to-black" // Blue-tinted
-  }
-];
+import { useState, useRef, useEffect } from "react";
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { MoveHorizontal } from "lucide-react";
 
 export default function BeforeAfter() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  
+  // Motion values for the slider position (0 to 1)
+  const x = useMotionValue(0.5);
+  const smoothX = useSpring(x, { damping: 30, stiffness: 200 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const progress = Math.min(Math.max(offsetX / rect.width, 0), 1);
+    x.set(progress);
+  };
+
+  const clipPath = useTransform(smoothX, (value) => `inset(0 0 0 ${value * 100}%)`);
+  const inverseClipPath = useTransform(smoothX, (value) => `inset(0 ${100 - value * 100}% 0 0)`);
+  const dividerPosition = useTransform(smoothX, (value) => `${value * 100}%`);
 
   return (
-    <section ref={containerRef} className="relative h-[500vh] bg-[#020202] text-white">
+    <section 
+        ref={containerRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="relative h-screen w-full bg-black overflow-hidden cursor-ew-resize select-none"
+    >
       
-      <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
-        
-        {/* Dynamic Background Atmosphere */}
-        {TRANSFORMATIONS.map((item, index) => {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const opacity = useTransform(scrollYProgress, 
-                [index * 0.25, (index * 0.25) + 0.1, (index + 1) * 0.25], 
-                [0, 1, 0]
-            );
-            return (
-                <motion.div 
-                    key={`bg-${index}`}
-                    style={{ opacity }}
-                    className={`absolute inset-0 bg-gradient-to-b ${item.color} transition-colors duration-1000`}
-                />
-            )
-        })}
+      {/* ================= CLARITY LAYER (RIGHT / ORDER) ================= */}
+      {/* Visible on the RIGHT side of the slider (inset from left) */}
+      <motion.div 
+        style={{ clipPath }}
+        className="absolute inset-0 z-20 bg-[#020202] flex items-center justify-center pointer-events-none"
+      >
+          {/* Content Container */}
+          <div className="relative w-full max-w-[1400px] px-12 flex flex-col items-center text-center">
+              
+              {/* Background Glow */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-honey-blue/10 rounded-full blur-[120px]" />
 
-        {/* Central Alchemy Stage */}
-        <div className="relative z-10 text-center w-full px-4">
-            
-            {TRANSFORMATIONS.map((item, index) => {
-                const start = index * 0.25;
-                const end = start + 0.25;
-                const mid = start + 0.125;
+              <span className="font-mono text-honey-blue text-sm tracking-[0.5em] uppercase mb-8 relative z-10">
+                  // The New Standard
+              </span>
+              
+              <h2 className="text-[12vw] font-bold tracking-tighter leading-[0.9] text-white relative z-10 drop-shadow-[0_0_30px_rgba(0,255,255,0.3)]">
+                  ICONIC
+                  <br />
+                  CLARITY
+              </h2>
+              
+              <p className="max-w-xl mx-auto mt-12 text-white/70 font-light text-xl leading-relaxed relative z-10">
+                  Precision-engineered digital experiences that cut through the noise. 
+                  Every pixel has a purpose. Every interaction tells a story.
+              </p>
 
-                // Scroll Ranges
-                // 0.0 -> 0.1: "Before" fades in
-                // 0.1 -> 0.15: "Before" blurs/distorts
-                // 0.15 -> 0.2: "After" clarifies
-                // 0.2 -> 0.25: Hold / Fade out
+              {/* Grid Lines Overlay */}
+               <div className="absolute inset-0 z-0 opacity-20" style={{ backgroundImage: "linear-gradient(to right, #00FFFF 1px, transparent 1px), linear-gradient(to bottom, #00FFFF 1px, transparent 1px)", backgroundSize: "100px 100px" }} />
+          </div>
+      </motion.div>
 
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                const beforeOpacity = useTransform(scrollYProgress, [start, start + 0.05, mid - 0.02, mid], [0, 1, 1, 0]);
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                const beforeBlur = useTransform(scrollYProgress, [start + 0.05, mid], ["blur(0px)", "blur(20px)"]);
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                const beforeScale = useTransform(scrollYProgress, [start, mid], [0.9, 1.1]);
 
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                const afterOpacity = useTransform(scrollYProgress, [mid, mid + 0.02, end - 0.05, end], [0, 1, 1, 0]);
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                const afterBlur = useTransform(scrollYProgress, [mid, mid + 0.05], ["blur(20px)", "blur(0px)"]);
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                const afterScale = useTransform(scrollYProgress, [mid, end], [1.1, 1]);
+      {/* ================= CONFUSION LAYER (LEFT / CHAOS) ================= */}
+      {/* Visible on the LEFT side of the slider (inset from right) */}
+      <motion.div 
+         style={{ clipPath: inverseClipPath }}
+         className="absolute inset-0 z-10 bg-[#0a0a0a] flex items-center justify-center overflow-hidden pointer-events-none"
+      >
+          {/* Content Container */}
+          <div className="relative w-full max-w-[1400px] px-12 flex flex-col items-center text-center filter blur-[4px] contrast-150 saturate-0 scale-[1.02]">
+              
+              <span className="font-mono text-gray-500 text-sm tracking-[0.5em] uppercase mb-8 opacity-50">
+                  // Legacy Systems
+              </span>
+              
+              <h2 className="text-[12vw] font-bold tracking-tighter leading-[0.9] text-white/50 relative z-10 animate-pulse">
+                   INVISIBLE
+                  <br />
+                   CONFUSION
+              </h2>
+              
+              <p className="max-w-xl mx-auto mt-12 text-gray-500 font-light text-xl leading-relaxed opacity-60">
+                  Generic templates lost in the void. Bloated code, slow load times, 
+                  and messaging that no one remembers.
+              </p>
 
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                const descOpacity = useTransform(scrollYProgress, [mid + 0.05, mid + 0.1, end - 0.05, end], [0, 1, 1, 0]);
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                const descY = useTransform(scrollYProgress, [mid, mid + 0.1], [20, 0]);
+               {/* Static Noise Overlay */}
+               <div className="absolute inset-0 z-20 opacity-30 mix-blend-overlay pointer-events-none" 
+                    style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} 
+               />
+          </div>
+      </motion.div>
 
-                return (
-                    <div key={index} className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                        
-                        {/* BEFORE WORD (Dissolving) */}
-                        <motion.h2 
-                            style={{ opacity: beforeOpacity, filter: beforeBlur, scale: beforeScale }}
-                            className="absolute text-[12vw] md:text-[15vw] font-bold leading-none tracking-tighter text-white/10 select-none"
-                        >
-                            {item.before}
-                        </motion.h2>
 
-                        {/* AFTER WORD (Emerging) */}
-                        <motion.h2 
-                            style={{ opacity: afterOpacity, filter: afterBlur, scale: afterScale }}
-                            className="absolute text-[12vw] md:text-[15vw] font-bold leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 select-none mix-blend-overlay"
-                        >
-                            {item.after}
-                        </motion.h2>
+      {/* ================= DIVIDER HANDLE ================= */}
+      <motion.div
+        style={{ left: dividerPosition }} 
+        className="absolute top-0 bottom-0 w-px bg-white/50 z-30 pointer-events-none"
+      >
+          <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+               <MoveHorizontal className="w-6 h-6 text-black" />
+          </div>
+          <div className="absolute top-0 bottom-0 -translate-x-1/2 w-[100px] bg-gradient-to-r from-transparent via-white/10 to-transparent blur-md" />
+      </motion.div>
 
-                         {/* Solid Overlay for After (Visibility) */}
-                         <motion.h2 
-                            style={{ opacity: afterOpacity, filter: afterBlur, scale: afterScale }}
-                            className="absolute text-[12vw] md:text-[15vw] font-bold leading-none tracking-tighter text-white select-none"
-                        >
-                            {item.after}
-                        </motion.h2>
-
-                        {/* Description */}
-                        <motion.p
-                            style={{ opacity: descOpacity, y: descY }}
-                            className="absolute bottom-[20vh] max-w-md text-center text-lg md:text-xl text-white/60 font-light leading-relaxed hidden md:block"
-                        >
-                            {item.desc}
-                        </motion.p>
-                    </div>
-                );
-            })}
-        </div>
-
-        {/* Global Progress Indicator */}
-        <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-20 hidden md:flex">
-             {TRANSFORMATIONS.map((_, i) => (
-                 <div key={i} className="w-1 h-1 rounded-full bg-white/20" />
-             ))}
-        </div>
-
+      {/* Helper Text */}
+      <div className={`absolute bottom-12 left-1/2 -translate-x-1/2 text-white/40 font-mono text-xs uppercase tracking-widest transition-opacity duration-500 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
+          Drag to Reveal
       </div>
+
     </section>
   );
 }
