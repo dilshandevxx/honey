@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 
 const steps = [
   {
@@ -32,64 +31,68 @@ const steps = [
 ];
 
 export default function Process() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"]
-  });
-
   return (
-    <section ref={containerRef} className="w-full bg-[#030303] text-white py-48 relative overflow-hidden" id="process">
+    <section className="w-full bg-[#050505] text-white py-32 md:py-48 relative overflow-hidden" id="process">
       
-      {/* Moving Spotlight */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none overflow-hidden">
-          <motion.div 
-            style={{ top: useTransform(scrollYProgress, [0, 1], ["0%", "80%"]) }}
-            className="absolute left-1/2 -translate-x-1/2 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] bg-honey-blue/10 rounded-full blur-[150px] mix-blend-screen transition-all duration-100 ease-linear" 
-          />
-      </div>
+      {/* Background Subtle Grid */}
+      <div className="absolute inset-0 z-0 opacity-[0.03]" 
+           style={{ backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)", backgroundSize: "50px 50px" }} 
+      />
 
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
+      <div className="max-w-[1400px] mx-auto px-6 relative z-10">
         
         {/* Header */}
-        <div className="text-center mb-40">
-            <span className="font-mono text-xs text-honey-blue tracking-[0.2em] uppercase block mb-6">
-                 [ The Path ]
-            </span>
-            <h2 className="text-5xl md:text-7xl font-light tracking-tighter uppercase">
-                 From Idea <span className="italic font-serif text-white/50">To Impact</span>
-            </h2>
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 md:mb-32 gap-8 border-b border-white/10 pb-12">
+            <div>
+                <span className="font-mono text-sm text-white/40 tracking-widest uppercase block mb-4">
+                     // The Path
+                </span>
+                <h2 className="text-5xl md:text-7xl font-bold tracking-tight uppercase leading-[0.9]">
+                     From Idea
+                     <br />
+                     <span className="text-white/30">To Impact</span>
+                </h2>
+            </div>
+            <div className="max-w-md pb-2">
+                <p className="text-white/60 text-lg leading-relaxed">
+                    A systematic approach to chaos. We turn abstract concepts into tangible digital dominance through a five-stage refinement cycle.
+                </p>
+            </div>
         </div>
 
         {/* Vertical Steps */}
-        <div className="flex flex-col gap-32 md:gap-48">
+        <div className="grid grid-cols-1 gap-0 border-l border-white/10">
             {steps.map((step, index) => (
                 <motion.div
                     key={step.id}
-                    initial={{ opacity: 0.2, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: false, margin: "-20% 0px -20% 0px" }}
-                    transition={{ duration: 0.8 }}
-                    className="group relative text-center"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-10%" }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="group relative pl-8 md:pl-16 py-16 md:py-20 border-b border-white/5 hover:bg-white/[0.02] transition-colors duration-500"
                 >
-                    {/* Background Light Scale Trigger */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[200%] bg-transparent" />
+                    {/* Active Line Indicator */}
+                    <div className="absolute left-[-1px] top-0 bottom-0 w-[2px] bg-white transform scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top" />
 
-                    <div className="relative inline-block">
-                        {/* Huge Number */}
-                        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15rem] md:text-[20rem] font-serif text-white/[0.03] select-none -z-10 group-hover:text-white/[0.05] transition-colors duration-700">
-                            {step.id}
-                        </span>
-
-                        {/* Title */}
-                        <h3 className="text-4xl md:text-6xl font-bold uppercase tracking-tight mb-8 group-hover:text-honey-blue transition-colors duration-500">
-                            {step.title}
-                        </h3>
+                    <div className="flex flex-col md:flex-row md:items-baseline gap-6 md:gap-24">
                         
-                        {/* Description */}
-                        <p className="max-w-md mx-auto text-lg md:text-xl text-white/60 font-light leading-relaxed group-hover:text-white transition-colors duration-500">
-                            {step.description}
-                        </p>
+                        {/* Number */}
+                        <div className="flex-shrink-0">
+                            <span className="font-mono text-xs md:text-sm text-white/30 tracking-widest group-hover:text-white transition-colors duration-300">
+                                /{step.id}
+                            </span>
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-grow">
+                             <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-6 group-hover:translate-x-2 transition-transform duration-500">
+                                {step.title}
+                             </h3>
+                             <p className="max-w-xl text-lg text-white/50 group-hover:text-white/80 transition-colors duration-500 leading-relaxed">
+                                {step.description}
+                             </p>
+                        </div>
+
                     </div>
 
                 </motion.div>

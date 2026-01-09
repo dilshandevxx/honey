@@ -5,16 +5,22 @@ import { useEffect, useRef } from "react";
 interface StarWarpProps {
   speed?: number; // 0 to 100
   isWarping?: boolean;
+  className?: string;
 }
 
-export default function StarWarp({ speed = 2, isWarping = false }: StarWarpProps) {
+export default function StarWarp({ speed = 2, isWarping = false, className }: StarWarpProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const speedRef = useRef(speed);
+  
+  // Use a ref to track the *current* visual speed for interpolation
+  const currentVisualSpeedRef = useRef(speed);
+  
+  // The target speed we want to reach
+  const targetSpeedRef = useRef(speed);
   const isWarpingRef = useRef(isWarping);
 
   // Update refs when props change
   useEffect(() => {
-    speedRef.current = speed;
+    targetSpeedRef.current = speed;
     isWarpingRef.current = isWarping;
   }, [speed, isWarping]);
 
@@ -27,7 +33,7 @@ export default function StarWarp({ speed = 2, isWarping = false }: StarWarpProps
 
     let animationFrameId: number;
     let stars: { x: number; y: number; z: number; px: number; py: number }[] = [];
-    const numStars = 500;
+    const numStars = 800; // Increased star count for better warp effect
     
     // Initialize stars
     const initStars = (width: number, height: number) => {
@@ -55,18 +61,22 @@ export default function StarWarp({ speed = 2, isWarping = false }: StarWarpProps
     const render = () => {
       if (!ctx || !canvas) return;
       
-      const currentSpeed = speedRef.current;
+      // Smoothly interpolate current speed towards target speed
+      // Adjust the 0.05 factor to change how "heavy" the acceleration feels
+      currentVisualSpeedRef.current += (targetSpeedRef.current - currentVisualSpeedRef.current) * 0.05;
+      
+      const currentSpeed = currentVisualSpeedRef.current;
       const currentIsWarping = isWarpingRef.current;
       
-      // Clear canvas
-      ctx.fillStyle = "rgba(0, 0, 0, 1)"; 
+      // Clear canvas with trail effect if warping
+      ctx.fillStyle = currentIsWarping ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 1)"; 
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       const cx = canvas.width / 2;
       const cy = canvas.height / 2;
 
-      // Ensure we fill the screen with stars
-      const starSpeed = currentIsWarping ? currentSpeed * 5 : currentSpeed; 
+      // Base move speed + warp multiplier
+      const starSpeed = currentIsWarping ? currentSpeed * 2 : currentSpeed; 
 
       stars.forEach((star) => {
         // Update star position
@@ -86,16 +96,17 @@ export default function StarWarp({ speed = 2, isWarping = false }: StarWarpProps
         const py = star.y * k + cy;
 
         if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
-          const size = (1 - star.z / canvas.width) * (currentIsWarping ? 3 : 2);
+          // Size scales with speed and proximity
+          const size = (1 - star.z / canvas.width) * (currentIsWarping ? 1 + (currentSpeed/10) : 2);
           const brightness = (1 - star.z / canvas.width);
           
-          if (currentIsWarping && star.px !== 0) {
-            // Draw warp lines
+          if (currentIsWarping || currentSpeed > 5) {
+            // Draw warp lines (streaks)
             ctx.beginPath();
             ctx.moveTo(px, py);
             
-            // Calculate previous frame pos approx
-            const prevZ = star.z + starSpeed; 
+            // Streak length based on speed
+            const prevZ = star.z + (starSpeed * 2); 
             const kPrev = 128.0 / prevZ;
             const prevPx = star.x * kPrev + cx;
             const prevPy = star.y * kPrev + cy;
@@ -131,7 +142,7 @@ export default function StarWarp({ speed = 2, isWarping = false }: StarWarpProps
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none z-0"
+      className={`absolute inset-0 w-full h-full pointer-events-none z-0 ${className || ""}`}
     />
   );
 }
