@@ -6,111 +6,97 @@ const steps = [
   {
     id: "01",
     title: "Discovery",
-    description: "We dive deep into your business goals, audience, and challenges. We ask the hard questions to uncover the core opportunities.",
-    duration: "1-2 WEEKS"
+    description: "We immerse ourselves in your world. Uncovering hidden truths, defining the audience, and setting the North Star.",
   },
   {
     id: "02",
     title: "Strategy",
-    description: "We map out the technical architecture and user experience. No guessing—just a solid blueprint for success.",
-    duration: "2 WEEKS"
+    description: "The blueprint for victory. We map user journeys, technical architecture, and the path of least resistance to impact.",
   },
   {
     id: "03",
     title: "Design",
-    description: "We craft visual systems that are as beautiful as they are functional. Expect high-fidelity prototypes and immersive interactions.",
-    duration: "4 WEEKS"
+    description: "Visual systems that breathe. We craft interfaces that feel inevitable, blending beauty with brutalist functionality.",
   },
   {
     id: "04",
     title: "Development",
-    description: "Our engineers build with modern, scalable tech stacks. We prioritize performance, security, and clean code.",
-    duration: "8 WEEKS"
+    description: "Code as craft. We build scalable, bulletproof engines using modern stacks that prioritize speed and security.",
   },
   {
     id: "05",
     title: "Evolution",
-    description: "Launch is just the beginning. We continually optimize and iterate based on real user data and changing market needs.",
-    duration: "ONGOING"
+    description: "Launch is day one. We iterate based on real-world data, ensuring your product grows sharper with time.",
   }
 ];
 
 export default function Process() {
   return (
-    <section className="w-full bg-[#050505] text-white py-32 relative overflow-hidden" id="process">
+    <section className="w-full bg-[#050505] text-white py-32 md:py-48 relative overflow-hidden" id="process">
       
-      {/* Background Gradients */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-honey-red/5 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-honey-blue/5 rounded-full blur-[100px]" />
-      </div>
+      {/* Background Subtle Grid */}
+      <div className="absolute inset-0 z-0 opacity-[0.03]" 
+           style={{ backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)", backgroundSize: "50px 50px" }} 
+      />
 
-      {/* Container */}
-      <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10">
+      <div className="max-w-[1400px] mx-auto px-6 relative z-10">
         
-        {/* Header Meta */}
-        <div className="flex justify-between items-end mb-24 border-b border-white/10 pb-8">
-          <div>
-            <span className="block font-mono text-xs text-honey-red tracking-[0.2em] mb-4">
-               [ 06 / 09 ]
-            </span>
-            <h2 className="text-[6vw] md:text-6xl leading-[0.85] font-bold tracking-tighter uppercase">
-              How We <span className="text-transparent stroke-text">Sprint</span>
-            </h2>
-          </div>
-          <p className="hidden md:block font-mono text-xs text-gray-500 max-w-sm text-right leading-relaxed uppercase">
-             From chaos to clarity.<br/>
-             Our proven methodology for rapid deployment.
-          </p>
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 md:mb-32 gap-8 border-b border-white/10 pb-12">
+            <div>
+                <span className="font-mono text-sm text-white/40 tracking-widest uppercase block mb-4">
+                     // The Path
+                </span>
+                <h2 className="text-5xl md:text-7xl font-bold tracking-tight uppercase leading-[0.9]">
+                     From Idea
+                     <br />
+                     <span className="text-white/30">To Impact</span>
+                </h2>
+            </div>
+            <div className="max-w-md pb-2">
+                <p className="text-white/60 text-lg leading-relaxed">
+                    A systematic approach to chaos. We turn abstract concepts into tangible digital dominance through a five-stage refinement cycle.
+                </p>
+            </div>
         </div>
 
-        {/* Steps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-          {steps.map((step, index) => (
-            <motion.div
-              key={step.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.8, ease: "backOut" }}
-              className="group relative h-full min-h-[400px] p-8 rounded-[2rem] bg-[#0A0A0A] border border-white/5 hover:border-honey-red/40 transition-all duration-500 overflow-hidden"
-            >
-              {/* Hover Glow */}
-              <div className="absolute inset-0 bg-radial-gradient from-honey-red/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" />
-              
-              {/* Content */}
-              <div className="relative z-10 flex flex-col justify-between h-full">
-                
-                {/* Top: ID */}
-                <div className="flex justify-between items-start">
-                    <span className="font-mono text-xl text-white/20 group-hover:text-honey-red transition-colors duration-300">
-                        {`// ${step.id}`}
-                    </span>
-                    {/* Status Dot */}
-                    <div className="w-2 h-2 rounded-full bg-white/10 group-hover:bg-honey-red group-hover:shadow-[0_0_10px_#FF3333] transition-all duration-300" />
-                </div>
+        {/* Vertical Steps */}
+        <div className="grid grid-cols-1 gap-0 border-l border-white/10">
+            {steps.map((step, index) => (
+                <motion.div
+                    key={step.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-10%" }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="group relative pl-8 md:pl-16 py-16 md:py-20 border-b border-white/5 hover:bg-white/[0.02] transition-colors duration-500"
+                >
+                    {/* Active Line Indicator */}
+                    <div className="absolute left-[-1px] top-0 bottom-0 w-[2px] bg-white transform scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top" />
 
-                {/* Middle: Title & Desc */}
-                <div className="mt-12">
-                     <h3 className="text-3xl font-bold uppercase tracking-tighter mb-6 group-hover:translate-x-2 transition-transform duration-500">
-                        {step.title}
-                     </h3>
-                     <p className="font-mono text-xs text-gray-500 leading-relaxed uppercase tracking-wide group-hover:text-gray-300 transition-colors duration-300">
-                        {step.description}
-                     </p>
-                </div>
+                    <div className="flex flex-col md:flex-row md:items-baseline gap-6 md:gap-24">
+                        
+                        {/* Number */}
+                        <div className="flex-shrink-0">
+                            <span className="font-mono text-xs md:text-sm text-white/30 tracking-widest group-hover:text-white transition-colors duration-300">
+                                /{step.id}
+                            </span>
+                        </div>
 
-                {/* Bottom: Duration */}
-                 <div className="mt-12 pt-6 border-t border-white/5 group-hover:border-honey-red/20 transition-colors duration-500">
-                    <div className="flex justify-between items-center text-xs font-mono uppercase tracking-widest text-honey-blue/80">
-                         <span>Est. Time</span>
-                         <span>{step.duration}</span>
+                        {/* Content */}
+                        <div className="flex-grow">
+                             <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-6 group-hover:translate-x-2 transition-transform duration-500">
+                                {step.title}
+                             </h3>
+                             <p className="max-w-xl text-lg text-white/50 group-hover:text-white/80 transition-colors duration-500 leading-relaxed">
+                                {step.description}
+                             </p>
+                        </div>
+
                     </div>
-                 </div>
-              </div>
 
-            </motion.div>
-          ))}
+                </motion.div>
+            ))}
         </div>
 
       </div>

@@ -1,294 +1,161 @@
 "use client";
 
-import { useRef, useState, useMemo } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import StarWarp from "./StarWarp";
-
-const BEFORE_CARDS = [
-  {
-    id: "01",
-    title: "THE WAITING GAME.",
-    desc: "'In 2 weeks' becomes 2 months. You lose momentum while they make excuses. Your business can't afford to pause.",
-    position: { top: "15%", left: "5%" },
-    rotation: -5,
-    exitX: -150
-  },
-  {
-    id: "02",
-    title: "COOKIE-CUTTER.",
-    desc: "Your site looks exactly like a cheap template. It has no soul, no impact, and your customers forget it instantly.",
-    position: { top: "50%", right: "5%" },
-    rotation: 8,
-    exitX: 200
-  },
-  {
-    id: "03",
-    title: "GHOSTING.",
-    desc: "Once you pay the deposit, good luck getting them on the phone. You're left in the dark wondering if work is even happening.",
-    position: { bottom: "10%", left: "10%" },
-    rotation: -10,
-    exitX: -100
-  },
-  {
-    id: "04",
-    title: "HIDDEN COSTS.",
-    desc: "Every small change is an extra fee. The final bill is double what you expected and the budget is blown.",
-    position: { top: "30%", left: "40%" },
-    rotation: 5,
-    exitX: 80
-  },
-];
-
-const AFTER_CARDS = [
-  {
-    id: "05",
-    title: "RAPID LAUNCH.",
-    desc: "We ship fast. Your business starts growing while competitors are still planning. Momentum is your best asset.",
-    position: { top: "10%", right: "10%" },
-    rotation: 6,
-    exitX: 120
-  },
-  {
-    id: "06",
-    title: "BUILT TO SELL.",
-    desc: "We don't just make 'pretty' sites. We build high-performance sales machines designed to convert visitors into buyers.",
-    position: { top: "45%", left: "5%" },
-    rotation: -5,
-    exitX: -80
-  },
-  {
-    id: "07",
-    title: "DIRECT ACCESS.",
-    desc: "No middle-men. You talk directly to the experts building your future. Clear communication, zero fluff.",
-    position: { bottom: "15%", right: "5%" },
-    rotation: 12,
-    exitX: 150
-  },
-  {
-    id: "08",
-    title: "TOTAL OWNERSHIP.",
-    desc: "No ongoing traps. We build it, we hand it over, and you own it 100%. No monthly 'maintenance' hostages.",
-    position: { top: "25%", left: "35%" },
-    rotation: -8,
-    exitX: -50
-
-  },
-];
 
 export default function BeforeAfter() {
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Track scroll progress over the entire tall container
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"],
+    offset: ["start start", "end end"]
   });
 
-  const [isWarping, setIsWarping] = useState(false);
+  // --- Animation Phases ---
+  // 0.0 - 0.3: BEFORE phase (static stars, chaotic cards)
+  // 0.3 - 0.6: WARP phase (accelerating stars, dimension jump)
+  // 0.6 - 1.0: AFTER phase (warp speed, clarity cards)
 
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    if (latest < 0.45) {
-      setIsWarping(false);
-    } else {
-      setIsWarping(true);
-    }
-  });
+  // 1. Warp Speed: 0.5 (slow) -> 50 (fast) -> 50 (stay fast)
+  const rawSpeed = useTransform(scrollYProgress, [0.2, 0.5, 0.9], [0.5, 40, 40]);
+  const speed = useSpring(rawSpeed, { stiffness: 60, damping: 20 });
+  
+  // 2. Is Warping Flag: Switches on during the jump
+  // We can just rely on speed, but let's pass isWarping for the trail effect
+  const isWarpingRaw = useTransform(scrollYProgress, [0, 0.3], [0, 1]); 
+  // We'll manually check this value in the render, or just rely on speed visual.
+  // Actually, let's keep it simple: if speed > 5, we are warping.
 
-  // --- TRANSFORMS ---
+  // 3. Before Content Opacity: Visible -> Fade Out
+  const beforeOpacity = useTransform(scrollYProgress, [0.1, 0.3], [1, 0]);
+  const beforeScale = useTransform(scrollYProgress, [0.1, 0.3], [1, 0.8]);
+  const beforeY = useTransform(scrollYProgress, [0.1, 0.3], [0, -100]);
 
-  // Phase Control
-  // 0.00 - 0.45: Before Phase
-  // 0.45 - 0.55: Transition Phase
-  // 0.55 - 1.00: After Phase
+  // 4. After Content Opacity: Invisible -> Fade In -> Stay
+  const afterOpacity = useTransform(scrollYProgress, [0.5, 0.7], [0, 1]);
+  const afterScale = useTransform(scrollYProgress, [0.5, 0.7], [1.5, 1]); // Zoom in from "dimension"
+  const afterY = useTransform(scrollYProgress, [0.5, 0.7], [100, 0]); 
 
-  const beforeOpacity = useTransform(scrollYProgress, [0.45, 0.5], [1, 0]);
-  const beforeScale = useTransform(scrollYProgress, [0.45, 0.5], [1, 0.8]);
-  const beforeFilter = useTransform(scrollYProgress, [0.45, 0.5], ["blur(0px)", "blur(10px)"]);
+  // 5. Exit Phase: Fade out everything at the very end so it doesn't just cut off
+  // const globalOpacity = useTransform(scrollYProgress, [0.9, 1.0], [1, 0]);
 
-  const afterOpacity = useTransform(scrollYProgress, [0.5, 0.55], [0, 1]);
-  const afterScale = useTransform(scrollYProgress, [0.5, 0.55], [1.2, 1]);
-  const afterFilter = useTransform(scrollYProgress, [0.5, 0.55], ["blur(10px)", "blur(0px)"]);
 
   return (
-    <section ref={containerRef} className="relative h-[800vh] bg-honey-black">
+    <section 
+        ref={containerRef}
+        className="relative h-[400vh] bg-black" 
+        id="nexus"
+    >
+      
+      {/* Sticky Viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
-        {/* Background Star Warp */}
-        <div className="absolute inset-0 z-0">
-          <StarWarp speed={isWarping ? 50 : 2} isWarping={isWarping} />
-        </div>
+          
+          {/* Background Stars (Controlled by Scroll) */}
+          <motion.div className="absolute inset-0 z-0">
+             {/* We can pass the raw spring value to a component if it accepts MotionValue, 
+                 but StarWarp expects number. We can use a small wrapper or just let react re-render 
+                 since scroll triggers frequent updates anyway. 
+                 However, re-rendering canvas 60fps via props is fine. 
+                 For smoothness, we will use a value listener or just standard react prop passing.
+              */}
+             <StarScrollWrapper speed={speed} />
+          </motion.div>
 
-        {/* ================= BEFORE PHASE ================= */}
-        <motion.div
-          style={{
-            opacity: beforeOpacity,
-            scale: beforeScale,
-            filter: beforeFilter,
-          }}
-          className="absolute inset-0 z-10 pointer-events-none"
-        >
-          {/* Main Title */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-0">
-             <div className="relative">
-                <span className="absolute top-[-5rem] left-1/2 -translate-x-1/2 font-mono text-xs text-honey-blue/50 tracking-[0.2em]">
-                    [ 05 / 09 ]
-                </span>
-                <h2 className="text-[12vw] leading-none font-bold text-transparent stroke-text font-sans tracking-tight opacity-30">
-                  BEFORE
+
+          {/* ================= BEFORE CONTENT (LEFT PHASE) ================= */}
+          <motion.div 
+            style={{ opacity: beforeOpacity, scale: beforeScale, y: beforeY }}
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none"
+          >
+              <h2 className="text-[10vw] md:text-[12vw] font-bold tracking-tighter leading-[0.85] text-[#333] mb-12 text-center">
+                  INVISIBLE
                   <br />
-                  <span className="text-white/20 ml-20">// NEXUSⒸ</span>
-                </h2>
-             </div>
-          </div>
+                  <span className="text-[#666]">CONFUSION</span>
+              </h2>
 
-          {/* Cards - Individual Lifecycles */}
-          <div className="absolute inset-0 z-10">
-              {BEFORE_CARDS.map((card, index) => {
-                 // Sequence: 0.05 to 0.40 total
-                 const duration = 0.08; 
-                 const start = 0.05 + (index * duration);
-                 const midEnter = start + 0.02; // Finish entering
-                 const midExit = start + 0.06;  // Start exiting
-                 const end = start + duration;  // Finish exiting
+              <div className="flex flex-wrap justify-center gap-8 opacity-80">
+                  {/* Card 1 */}
+                  <div className="w-[300px] md:w-[400px] p-8 rounded-2xl bg-white/[0.02] backdrop-blur-md border border-white/5 text-left grayscale">
+                      <div className="flex justify-between items-start mb-6">
+                           <h3 className="text-2xl font-bold text-white/60 uppercase tracking-tight">Gas Lighting.</h3>
+                           <span className="font-mono text-white/20 text-sm">[01]</span>
+                      </div>
+                      <p className="font-mono text-sm leading-relaxed text-white/40">
+                          As the contract dries, effort evaporates. Meetings never come. "R&D" hell becomes your reality.
+                      </p>
+                  </div>
+                  {/* Card 2 */}
+                  <div className="w-[300px] md:w-[400px] p-8 rounded-2xl bg-white/[0.02] backdrop-blur-md border border-white/5 text-left grayscale">
+                      <div className="flex justify-between items-start mb-6">
+                           <h3 className="text-2xl font-bold text-white/60 uppercase tracking-tight">Ghosting.</h3>
+                           <span className="font-mono text-white/20 text-sm">[02]</span>
+                      </div>
+                      <p className="font-mono text-sm leading-relaxed text-white/40">
+                          Founders watch budgets die. CMOs change status to "Open to Work". Silence is the only deliverable.
+                      </p>
+                  </div>
+              </div>
+          </motion.div>
 
-                 // 1. Enter: 120vh -> -5vh (Slow drift begins)
-                 // 2. Read: -5vh -> -15vh (Slow drift continues)
-                 // 3. Exit: -15vh -> -80vh (Accelerate out)
-                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const y = useTransform(scrollYProgress, [start, midEnter, midExit, end], ["120vh", "-5vh", "-15vh", "-80vh"]);
-                 
-                 // 1. Enter: Opacity 0 -> 1
-                 // 2. Hold: Opacity 1
-                 // 3. Exit: Opacity 1 -> 0
-                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const opacity = useTransform(scrollYProgress, [start, midEnter, midExit, end], [0, 1, 1, 0]);
 
-                 // X-Axis Drift
-                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const x = useTransform(scrollYProgress, [midExit, end], [0, card.exitX]);
-
-                 // Rotation & Twist using the card's specific rotation prop
-                 // Stable during read, dramatic twist on exit
-                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const rotate = useTransform(scrollYProgress, [start, midExit, end], [card.rotation, card.rotation, card.rotation * 4]);
-
-                 // Optional: Scale down slightly on exit
-                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const scale = useTransform(scrollYProgress, [midExit, end], [1, 0.8]);
-
-                 return (
-                     <motion.div
-                        key={card.id}
-                        style={{ 
-                            y, 
-                            x,
-                            rotate,
-                            opacity,
-                            scale,
-                            ...card.position 
-                        }}
-                        className="absolute w-[90vw] md:w-[450px] p-10 rounded-[2rem] z-20 group"
-                     >
-                         {/* Deep Onyx Card Style */}
-                         <div className="absolute inset-0 bg-[#0A0A0A] opacity-95 rounded-[2rem] border border-white/5" />
-                         
-                         {/* Inner Glow */}
-                         <div className="absolute inset-0 bg-radial-gradient from-white/5 to-transparent opacity-20 rounded-[2rem]" />
-
-                         <div className="relative z-10 flex flex-col h-full justify-between min-h-[300px]">
-                            <div className="flex justify-between items-start mb-12">
-                                <h3 className="text-3xl font-bold text-white tracking-tighter uppercase">{card.title}</h3>
-                                <span className="text-[#FF3333] font-mono text-xl tracking-widest">{`[${card.id}]`}</span>
-                            </div>
-                            <p className="font-mono text-sm text-gray-400 leading-relaxed uppercase tracking-wide">
-                                {card.desc}
-                            </p>
-                         </div>
-                     </motion.div>
-                 )
-              })}
-          </div>
-        </motion.div>
-
-        {/* ================= AFTER PHASE ================= */}
-        <motion.div
-          style={{
-            opacity: afterOpacity,
-            scale: afterScale,
-            filter: afterFilter,
-          }}
-          className="absolute inset-0 z-20 pointer-events-none"
-        >
-           {/* Main Title */}
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-0">
-             <span className="absolute top-[-5rem] left-1/2 -translate-x-1/2 font-mono text-xs text-honey-red/50 tracking-[0.2em]">
-                    AFTER NEXUS
-             </span>
-             <h2 className="text-[12vw] leading-none font-bold text-honey-red tracking-tight drop-shadow-[0_0_30px_rgba(255,77,77,0.5)] opacity-50">
-                  AFTER
+          {/* ================= AFTER CONTENT (RIGHT PHASE) ================= */}
+          <motion.div 
+            style={{ opacity: afterOpacity, scale: afterScale, y: afterY }}
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none"
+          >
+               <h2 className="text-[10vw] md:text-[12vw] font-bold tracking-tighter leading-[0.85] text-[#FF4D00] mb-12 text-center mix-blend-screen drop-shadow-[0_0_50px_rgba(255,77,0,0.5)]">
+                  ICONIC
                   <br />
-                  <span className="ml-20">// NEXUSⒸ</span>
-                </h2>
-           </div>
+                  <span className="text-white">CLARITY</span>
+              </h2>
 
-           {/* Cards - Individual Lifecycles */}
-           <div className="absolute inset-0 z-10">
-               {AFTER_CARDS.map((card, index) => {
-                 // Sequence: 0.55 to 0.95 total
-                 const duration = 0.09; 
-                 const start = 0.55 + (index * duration);
-                 const midEnter = start + 0.02;
-                 const midExit = start + 0.07;
-                 const end = start + duration;
-                 
-                  // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const y = useTransform(scrollYProgress, [start, midEnter, midExit, end], ["120vh", "-5vh", "-15vh", "-80vh"]);
-                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const opacity = useTransform(scrollYProgress, [start, midEnter, midExit, end], [0, 1, 1, 0]);
-                 
-                 // X-Axis Drift
-                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const x = useTransform(scrollYProgress, [midExit, end], [0, card.exitX]);
+              <div className="flex flex-wrap justify-center gap-8">
+                  {/* Card 1 */}
+                  <div className="w-[300px] md:w-[400px] p-8 rounded-2xl bg-black/60 backdrop-blur-xl border border-[#FF4D00]/30 text-left shadow-[0_0_50px_rgba(255,77,0,0.1)]">
+                      <div className="flex justify-between items-start mb-6">
+                           <h3 className="text-2xl font-bold text-white uppercase tracking-tight">Sell Beautifully.</h3>
+                           <span className="font-mono text-[#FF4D00] text-sm">[01]</span>
+                      </div>
+                      <p className="font-mono text-sm leading-relaxed text-white/70">
+                          It's not creative unless it sells. Every work is built like a Ferrari. Speed meets precision.
+                      </p>
+                  </div>
+                  {/* Card 2 */}
+                  <div className="w-[300px] md:w-[400px] p-8 rounded-2xl bg-black/60 backdrop-blur-xl border border-[#FF4D00]/30 text-left shadow-[0_0_50px_rgba(255,77,0,0.1)]">
+                      <div className="flex justify-between items-start mb-6">
+                           <h3 className="text-2xl font-bold text-white uppercase tracking-tight">Produce More.</h3>
+                           <span className="font-mono text-[#FF4D00] text-sm">[02]</span>
+                      </div>
+                      <p className="font-mono text-sm leading-relaxed text-white/70">
+                          Picasso produced 50,000 works. We match that prolific energy. In 90 days, you'll outpace years of competition.
+                      </p>
+                  </div>
+              </div>
+          </motion.div>
 
-                 // Rotation & Twist
-                 // Stable during read, dramatic twist on exit
-                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const rotate = useTransform(scrollYProgress, [start, midExit, end], [card.rotation, card.rotation, card.rotation * 4]);
-
-                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                 const scale = useTransform(scrollYProgress, [midExit, end], [1, 0.8]);
-
-                 return (
-                     <motion.div
-                        key={card.id}
-                        style={{ 
-                            y, 
-                            x,
-                            rotate,
-                            opacity,
-                            scale,
-                            ...card.position 
-                        }}
-                        className="absolute w-[90vw] md:w-[450px] p-10 rounded-[2rem] z-20 group"
-                     >
-                         {/* Deep Onyx Card Style */}
-                         <div className="absolute inset-0 bg-[#0A0A0A] opacity-95 rounded-[2rem] border border-[#FF3333]/20" />
-                         
-                         {/* Inner Glow */}
-                         <div className="absolute inset-0 bg-radial-gradient from-[#FF3333]/10 to-transparent opacity-30 rounded-[2rem]" />
-
-                         <div className="relative z-10 flex flex-col h-full justify-between min-h-[300px]">
-                            <div className="flex justify-between items-start mb-12">
-                                <h3 className="text-3xl font-bold text-white tracking-tighter uppercase">{card.title}</h3>
-                                <span className="text-[#FF3333] font-mono text-xl tracking-widest">{`[${card.id}]`}</span>
-                            </div>
-                            <p className="font-mono text-sm text-gray-400 leading-relaxed uppercase tracking-wide">
-                                {card.desc}
-                            </p>
-                         </div>
-                     </motion.div>
-                 )
-              })}
-           </div>
-        </motion.div>
       </div>
     </section>
   );
+}
+
+// Wrapper to bridging MotionValue speed to StarWarp prop
+function StarScrollWrapper({ speed }: { speed: any }) {
+    const [currentSpeed, setCurrentSpeed] = useState(0.5);
+
+    useMotionValueEvent(speed, "change", (latest) => {
+        setCurrentSpeed(latest);
+    });
+
+    return <StarWarp speed={currentSpeed} isWarping={currentSpeed > 5} />;
+}
+
+import { useState, useEffect as useMotionValueEventEffect } from "react";
+// Polyfill or hook for motion value event if not available directly
+function useMotionValueEvent(value: any, event: string, callback: (v: any) => void) {
+    useMotionValueEventEffect(() => {
+        const unsubscribe = value.on(event, callback);
+        return unsubscribe;
+    }, [value, event, callback]);
 }
