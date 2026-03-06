@@ -7,138 +7,161 @@ import StarWarp from "./StarWarp";
 export default function BeforeAfter() {
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Track scroll progress over the entire tall container
+  // Track scroll progress over a tall container for a long, buttery smooth animation
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   });
 
-  // --- Animation Phases ---
-  // 0.0 - 0.3: BEFORE phase (static stars, chaotic cards)
-  // 0.3 - 0.6: WARP phase (accelerating stars, dimension jump)
-  // 0.6 - 1.0: AFTER phase (warp speed, clarity cards)
+  // Add multiple cards for the long scroll
+  const confusionCards = [
+    { title: "Gas Lighting.", num: "01", desc: "As the contract dries, effort evaporates. Meetings never come. 'R&D' hell becomes your reality." },
+    { title: "Ghosting.", num: "02", desc: "Founders watch budgets die. CMOs change status to 'Open to Work'. Silence is the only deliverable." },
+    { title: "Death by Committee.", num: "03", desc: "Endless wireframes. Zero code. Your product vision is mutilated by middle management." },
+    { title: "The Hand-off Drop.", num: "04", desc: "The 'A-Team' pitches you. The 'C-Team' builds it. Quality plummets, timelines double." },
+    { title: "Tech Debt Traps.", num: "05", desc: "Spaghetti code shipped as an 'MVP'. You'll spend next year rewriting yesterday's mistakes." }
+  ];
 
-  // 1. Warp Speed: 0.5 (slow) -> 120 (extremely fast) -> 40 (cruising)
-  const rawSpeed = useTransform(scrollYProgress, [0.2, 0.45, 0.9], [0.5, 120, 30]);
-  const speed = useSpring(rawSpeed, { stiffness: 100, damping: 25 });
+  // --- Animation Physics ---
   
-  // 2. Is Warping Flag: Switches on during the jump
-  // We can just rely on speed, but let's pass isWarping for the trail effect
-  const isWarpingRaw = useTransform(scrollYProgress, [0, 0.3], [0, 1]); 
-  // We'll manually check this value in the render, or just rely on speed visual.
-  // Actually, let's keep it simple: if speed > 5, we are warping.
+  // Stars start slow and get beautiful and fast during the transition (0.4 to 0.6)
+  const rawSpeed = useTransform(scrollYProgress, [0.3, 0.5, 0.7], [0.2, 40, 0.2]);
+  const speed = useSpring(rawSpeed, { stiffness: 60, damping: 20 });
 
-  // 3. Before Content Opacity: Visible -> Fade Out (pulled back dramatically)
-  const beforeOpacity = useTransform(scrollYProgress, [0.1, 0.25], [1, 0]);
-  const beforeScale = useTransform(scrollYProgress, [0.1, 0.25], [1, 0.5]);
-  const beforeY = useTransform(scrollYProgress, [0.1, 0.25], [0, -150]);
-  const beforeBlur = useTransform(scrollYProgress, [0.1, 0.25], ["blur(0px)", "blur(20px)"]);
+  // ==== PHASE 1: INVISIBLE CONFUSION ====
+  // Title stays locked while cards scroll naturally. 
+  // We fade it out entirely by 0.5 when the cards are gone.
+  const confusionOpacity = useTransform(scrollYProgress, [0.4, 0.5], [1, 0]);
+  const confusionY = useTransform(scrollYProgress, [0.4, 0.5], [0, -100]);
 
-  // 4. After Content Opacity: Invisible -> Massive impact Fade In -> Stay
-  const afterOpacity = useTransform(scrollYProgress, [0.4, 0.55], [0, 1]);
-  const afterScale = useTransform(scrollYProgress, [0.4, 0.6], [2.5, 1]); // Dramatic slam-in from warp
-  const afterY = useTransform(scrollYProgress, [0.4, 0.6], [200, 0]); 
-  const afterBlur = useTransform(scrollYProgress, [0.4, 0.55], ["blur(30px)", "blur(0px)"]);
-  const afterLetterSpacing = useTransform(scrollYProgress, [0.4, 0.6], ["0.5em", "-0.05em"]);
+  // Card Column wrapper fades out cleanly at 0.5
+  const scrollWrapperOpacity = useTransform(scrollYProgress, [0.45, 0.5], [1, 0]);
 
-  // 5. Exit Phase: Fade out everything at the very end so it doesn't just cut off
-  // const globalOpacity = useTransform(scrollYProgress, [0.9, 1.0], [1, 0]);
+  // ==== PHASE 2: THE VOID ====
+  // 0.5 to 0.6 is a gap where just the beautiful stars warp past.
 
+  // ==== PHASE 3: ICONIC CLARITY ====
+  // Clarity title and cards fade in gently as we hit 0.6
+  const clarityOpacity = useTransform(scrollYProgress, [0.6, 0.7], [0, 1]);
+  const clarityY = useTransform(scrollYProgress, [0.6, 0.7], [100, 0]);
 
   return (
     <section 
         ref={containerRef}
-        className="relative h-[400vh] bg-black" 
+        className="relative h-[500vh] bg-[#020202] border-t border-neutral-900" 
         id="nexus"
     >
       
       {/* Sticky Viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
           
-          {/* Background Stars (Controlled by Scroll) */}
-          <motion.div className="absolute inset-0 z-0">
-             {/* We can pass the raw spring value to a component if it accepts MotionValue, 
-                 but StarWarp expects number. We can use a small wrapper or just let react re-render 
-                 since scroll triggers frequent updates anyway. 
-                 However, re-rendering canvas 60fps via props is fine. 
-                 For smoothness, we will use a value listener or just standard react prop passing.
-              */}
+          {/* Beautiful Star Background */}
+          <motion.div className="absolute inset-0 z-0 opacity-60">
+             <div className="absolute inset-0 bg-radial-gradient from-honey-blue/5 to-transparent mix-blend-screen pointer-events-none" />
              <StarScrollWrapper speed={speed} />
           </motion.div>
 
-
-          {/* ================= BEFORE CONTENT (LEFT PHASE) ================= */}
+          {/* ================= SEQUENCE 1: INVISIBLE CONFUSION ================= */}
           <motion.div 
-            style={{ opacity: beforeOpacity, scale: beforeScale, y: beforeY, filter: beforeBlur as any }}
-            className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none px-6"
+            style={{ 
+                opacity: confusionOpacity,
+                y: confusionY,
+                pointerEvents: useTransform(scrollYProgress, v => v < 0.5 ? "auto" : "none") as any
+            }}
+            className="absolute inset-0 z-10 flex flex-col md:flex-row items-center justify-between px-6 md:px-24 h-full max-w-[1800px] mx-auto"
           >
-              <h2 className="text-[12vw] md:text-[8vw] font-bold tracking-tighter leading-[0.85] mb-16 text-center uppercase drop-shadow-2xl">
-                  <span className="text-white/20">INVISIBLE</span>
-                  <br />
-                  <span className="bg-gradient-to-r from-neutral-500 to-neutral-700 bg-clip-text text-transparent">CONFUSION</span>
-              </h2>
-
-              <div className="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-24 opacity-80 w-full max-w-5xl border-t border-neutral-800 pt-16">
-                  {/* Card 1 */}
-                  <div className="w-full md:w-1/2 text-left">
-                      <div className="flex justify-between items-end mb-8 border-b border-neutral-800 pb-4">
-                           <h3 className="text-2xl md:text-3xl font-light text-neutral-400 tracking-tight font-sans">Gas Lighting.</h3>
-                           <span className="font-mono text-neutral-500 text-xs tracking-[0.2em]">[01]</span>
-                      </div>
-                      <p className="font-mono text-sm md:text-base leading-[2] text-neutral-500">
-                          As the contract dries, effort evaporates. Meetings never come. "R&D" hell becomes your reality.
-                      </p>
-                  </div>
-                  {/* Card 2 */}
-                  <div className="w-full md:w-1/2 text-left">
-                      <div className="flex justify-between items-end mb-8 border-b border-neutral-800 pb-4">
-                           <h3 className="text-2xl md:text-3xl font-light text-neutral-400 tracking-tight font-sans">Ghosting.</h3>
-                           <span className="font-mono text-neutral-500 text-xs tracking-[0.2em]">[02]</span>
-                      </div>
-                      <p className="font-mono text-sm md:text-base leading-[2] text-neutral-500">
-                          Founders watch budgets die. CMOs change status to "Open to Work". Silence is the only deliverable.
-                      </p>
-                  </div>
+              {/* Left Side: Sticky Title */}
+              <div className="w-full md:w-1/2 flex flex-col items-start justify-center h-full pt-24 md:pt-0">
+                   {/* Minimalist Section Label */}
+                   <span className="font-mono text-xs md:text-sm tracking-[0.4em] uppercase text-neutral-600 flex items-center gap-6 justify-start mb-12">
+                        THE REALITY
+                        <span className="w-12 h-[1px] bg-neutral-800" />
+                   </span>
+                   {/* High Contrast Typography */}
+                  <h2 className="text-[14vw] md:text-[8vw] font-light tracking-tighter leading-[0.85] uppercase text-left">
+                      <span className="text-white block font-sans tracking-tight">INVISIBLE</span>
+                      <span className="text-neutral-500 block font-serif italic lowercase pl-[10%]">confusion.</span>
+                  </h2>
               </div>
+
+              {/* Right Side: Naturally Scrolling Card Column */}
+              <motion.div 
+                 style={{ opacity: scrollWrapperOpacity }}
+                 className="w-full md:w-1/2 h-full overflow-hidden relative"
+              >
+                  {/* The cards translate based on scroll allowing many to pass by */}
+                  <motion.div 
+                    style={{ 
+                        // Map scroll 0 -> 0.4 to a massive upward translation
+                        y: useTransform(scrollYProgress, [0, 0.45], ["20%", "-120%"]) 
+                    }}
+                    className="flex flex-col gap-24 pt-[80vh] pb-[50vh] px-4 md:pl-24"
+                  >
+                      {confusionCards.map((card, i) => (
+                          <div key={i} className="w-full text-left border-t border-neutral-800 pt-8 group cursor-default">
+                              <div className="flex justify-between items-end mb-6">
+                                  <h3 className="text-3xl font-light text-neutral-400 font-sans tracking-tight group-hover:text-white transition-colors duration-500">{card.title}</h3>
+                                  <span className="font-mono text-neutral-600 text-xs tracking-[0.2em] group-hover:text-white transition-colors duration-500">[{card.num}]</span>
+                              </div>
+                              <p className="font-mono md:text-lg leading-[2] text-neutral-500 group-hover:text-neutral-300 transition-colors duration-500 max-w-md">
+                                  {card.desc}
+                              </p>
+                          </div>
+                      ))}
+                  </motion.div>
+                  
+                  {/* Gradient faders at top and bottom so cards disappear smoothly */}
+                  <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-[#020202] to-transparent pointer-events-none z-10" />
+                  <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#020202] to-transparent pointer-events-none z-10" />
+              </motion.div>
           </motion.div>
 
 
-          {/* ================= AFTER CONTENT (RIGHT PHASE) ================= */}
+          {/* ================= SEQUENCE 2: ICONIC CLARITY ================= */}
           <motion.div 
-            style={{ opacity: afterOpacity, scale: afterScale, y: afterY, filter: afterBlur as any }}
-            className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none px-6"
+            style={{ 
+                opacity: clarityOpacity,
+                y: clarityY,
+                pointerEvents: useTransform(scrollYProgress, v => v >= 0.5 ? "auto" : "none") as any
+            }}
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 origin-center"
           >
-               <motion.h2 
-                 style={{ letterSpacing: afterLetterSpacing as any }}
-                 className="text-[14vw] md:text-[10vw] font-bold leading-[0.8] mb-16 text-center uppercase"
-               >
-                  <span className="bg-gradient-to-br from-white via-neutral-100 to-neutral-400 bg-clip-text text-transparent drop-shadow-lg">
-                    ICONIC
-                  </span>
-                  <br />
-                  <span className="bg-gradient-to-r from-honey-blue via-cyan-300 to-honey-blue bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(0,255,255,0.3)]">
-                    CLARITY
-                  </span>
-              </motion.h2>
+              <div className="mb-24 flex flex-col items-center w-full max-w-5xl">
+                  {/* Minimalist Section Label */}
+                  <span className="font-mono text-xs md:text-sm tracking-[0.4em] uppercase text-white flex items-center gap-6 justify-center mb-8">
+                        <span className="w-12 h-[1px] bg-white/30" />
+                        THE SOLUTION
+                        <span className="w-12 h-[1px] bg-white/30" />
+                   </span>
+                   {/* High Contrast Typography */}
+                   <h2 className="text-[14vw] md:text-[10vw] font-bold tracking-tighter leading-[0.8] text-center uppercase">
+                      <span className="text-white block font-sans tracking-tight drop-shadow-lg">
+                        ICONIC
+                      </span>
+                      <span className="text-neutral-400 block font-serif italic lowercase font-light ml-[20%]">
+                        clarity.
+                      </span>
+                   </h2>
+               </div>
 
-              <div className="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-24 w-full max-w-5xl border-t border-white/10 pt-16">
-                  {/* Card 1 */}
-                  <div className="w-full md:w-1/2 text-left group">
-                      <div className="flex justify-between items-end mb-8 border-b border-white/10 pb-4 group-hover:border-honey-blue transition-colors duration-500">
-                           <h3 className="text-2xl md:text-3xl font-light text-white tracking-tight font-sans group-hover:text-honey-blue transition-colors duration-500">Sell Beautifully.</h3>
-                           <span className="font-mono text-white/40 text-xs tracking-[0.2em] group-hover:text-honey-blue transition-colors duration-500">[01]</span>
+              <div className="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-24 w-full max-w-5xl">
+                  {/* Clarity Card 1 */}
+                  <div className="w-full md:w-1/2 text-left border-t border-neutral-600 pt-8 group cursor-default">
+                      <div className="flex justify-between items-end mb-6">
+                           <h3 className="text-2xl md:text-3xl font-light text-white tracking-tight font-sans transition-colors duration-500">Sell Beautifully.</h3>
+                           <span className="font-mono text-neutral-400 text-xs tracking-[0.2em] group-hover:text-white transition-colors duration-500">[01]</span>
                       </div>
-                      <p className="font-mono text-sm md:text-base leading-[2] text-white/60 group-hover:text-white/90 transition-colors duration-500">
+                      <p className="font-mono text-sm md:text-base leading-[2] text-neutral-400 group-hover:text-white transition-colors duration-500">
                           It's not creative unless it sells. Every work is built like a Ferrari. Speed meets precision.
                       </p>
                   </div>
-                  {/* Card 2 */}
-                  <div className="w-full md:w-1/2 text-left group">
-                      <div className="flex justify-between items-end mb-8 border-b border-white/10 pb-4 group-hover:border-honey-blue transition-colors duration-500">
-                           <h3 className="text-2xl md:text-3xl font-light text-white tracking-tight font-sans group-hover:text-honey-blue transition-colors duration-500">Produce More.</h3>
-                           <span className="font-mono text-white/40 text-xs tracking-[0.2em] group-hover:text-honey-blue transition-colors duration-500">[02]</span>
+                  {/* Clarity Card 2 */}
+                  <div className="w-full md:w-1/2 text-left border-t border-neutral-600 pt-8 group cursor-default">
+                      <div className="flex justify-between items-end mb-6">
+                           <h3 className="text-2xl md:text-3xl font-light text-white tracking-tight font-sans transition-colors duration-500">Produce More.</h3>
+                           <span className="font-mono text-neutral-400 text-xs tracking-[0.2em] group-hover:text-white transition-colors duration-500">[02]</span>
                       </div>
-                      <p className="font-mono text-sm md:text-base leading-[2] text-white/60 group-hover:text-white/90 transition-colors duration-500">
+                      <p className="font-mono text-sm md:text-base leading-[2] text-neutral-400 group-hover:text-white transition-colors duration-500">
                           Picasso produced 50,000 works. We match that prolific energy. In 90 days, you'll outpace years of competition.
                       </p>
                   </div>
@@ -151,6 +174,8 @@ export default function BeforeAfter() {
 }
 
 // Wrapper to bridging MotionValue speed to StarWarp prop
+import { useState, useEffect as useMotionValueEventEffect } from "react";
+
 function StarScrollWrapper({ speed }: { speed: any }) {
     const [currentSpeed, setCurrentSpeed] = useState(0.5);
 
@@ -161,8 +186,7 @@ function StarScrollWrapper({ speed }: { speed: any }) {
     return <StarWarp speed={currentSpeed} isWarping={currentSpeed > 5} />;
 }
 
-import { useState, useEffect as useMotionValueEventEffect } from "react";
-// Polyfill or hook for motion value event if not available directly
+// Polyfill bridging Framer Motion value events
 function useMotionValueEvent(value: any, event: string, callback: (v: any) => void) {
     useMotionValueEventEffect(() => {
         const unsubscribe = value.on(event, callback);

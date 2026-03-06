@@ -32,48 +32,67 @@ export default function FinalCTA() {
   };
 
   return (
-    <section className="w-full bg-[#000000] text-white py-48 md:py-64 relative overflow-hidden flex flex-col items-center justify-center">
+    <section className="w-full bg-[#030303] text-white py-48 md:py-64 relative overflow-hidden flex flex-col items-center justify-center border-t border-neutral-900">
       
-      {/* Background Ambience */}
-      <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-white/5 rounded-full blur-[150px] opacity-20 overflow-hidden" />
-      </div>
-
-      <div className="relative z-10 text-center flex flex-col items-center">
+      {/* Ultra-Minimalist Layout (No Ambience) */}
+      
+      <div className="relative z-10 w-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col items-center text-center">
         
-        <h2 className="text-[12vw] leading-[0.8] font-bold tracking-tighter uppercase mb-24 mix-blend-difference z-20 pointer-events-none">
-            <span className="block text-white">Project In</span>
-            <span className="block text-white/50">Mind?</span>
+        {/* Eyebrow Text */}
+        <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-16"
+        >
+            <span className="font-mono text-xs md:text-sm tracking-[0.4em] uppercase text-neutral-500 flex items-center gap-6 justify-center">
+                <span className="w-12 h-[1px] bg-neutral-800" />
+                INITIATE SEQUENCE
+                <span className="w-12 h-[1px] bg-neutral-800" />
+            </span>
+        </motion.div>
+
+        {/* Massive Typography - No Gradients, Just Contrast */}
+        <h2 className="text-[16vw] md:text-[14vw] leading-[0.85] font-light tracking-tighter uppercase mb-24 z-20 pointer-events-none flex flex-col items-center text-white">
+            <span className="font-sans tracking-tight">
+                Project In
+            </span>
+            <span className="font-mono italic lowercase text-neutral-600 -mt-2 md:-mt-8 pl-12 md:pl-48">
+                mind?
+            </span>
         </h2>
 
-        {/* Magnetic Button Container */}
+        {/* Minimalist Magnetic Button Structure */}
         <motion.div 
             ref={ref}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             style={{ x: mouseX, y: mouseY }}
-            className="relative cursor-pointer group"
+            className="relative cursor-pointer group z-30"
         >
             <a 
                 href="/contact"
-                className="w-64 h-64 md:w-80 md:h-80 rounded-full bg-honey-red flex items-center justify-center relative overflow-hidden transition-transform duration-500 ease-out group-hover:scale-110"
+                className="w-48 h-48 md:w-64 md:h-64 rounded-full border border-neutral-800 flex items-center justify-center relative overflow-hidden transition-all duration-700 ease-out group-hover:scale-110 group-hover:bg-white group-hover:border-white"
             >
                 {/* Button Content */}
-                <div className="relative z-10 flex flex-col items-center gap-2 mix-blend-difference text-white">
-                     <span className="text-xl md:text-2xl font-bold uppercase tracking-widest group-hover:tracking-[0.3em] transition-all duration-500">
+                <div className="relative z-10 flex flex-col items-center gap-3 text-white group-hover:text-black transition-colors duration-500">
+                     <span className="text-sm md:text-lg font-bold uppercase tracking-[0.2em] font-sans">
                         Let's Talk
                      </span>
-                     <ArrowUpRight className="w-8 h-8 group-hover:rotate-45 transition-transform duration-500" />
+                     <ArrowUpRight className="w-6 h-6 md:w-8 md:h-8 group-hover:rotate-45 transition-transform duration-500" />
                 </div>
-                
-                {/* Ripple Effect */}
-                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-full scale-0 group-hover:scale-150 ease-out origin-center animate-pulse" />
-
             </a>
-            
-             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full rounded-full border border-white/10 scale-125 group-hover:scale-[1.35] transition-transform duration-700 ease-out pointer-events-none" />
-             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full rounded-full border border-white/5 scale-150 group-hover:scale-[1.6] transition-transform duration-700 ease-out pointer-events-none delay-100" />
+        </motion.div>
 
+        {/* Footer Note */}
+        <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="mt-32 font-mono text-xs text-neutral-600 uppercase tracking-[0.3em] flex flex-col items-center gap-4"
+        >
+            <span className="w-[1px] h-12 bg-neutral-800" />
+            [ Start a New Timeline ]
         </motion.div>
 
       </div>

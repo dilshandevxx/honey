@@ -32,11 +32,12 @@ export default function StarWarp({ speed = 2, isWarping = false, className }: St
     if (!ctx) return;
 
     let animationFrameId: number;
-    let stars: { x: number; y: number; z: number; px: number; py: number }[] = [];
+    let stars: { x: number; y: number; z: number; px: number; py: number; color: string }[] = [];
     const numStars = 800; // Increased star count for better warp effect
     
     // Initialize stars
     const initStars = (width: number, height: number) => {
+      const colors = ["255, 255, 255", "180, 220, 255", "255, 240, 200"]; // White, Ice Blue, Faint Gold
       stars = [];
       for (let i = 0; i < numStars; i++) {
         stars.push({
@@ -44,7 +45,8 @@ export default function StarWarp({ speed = 2, isWarping = false, className }: St
           y: (Math.random() - 0.5) * height * 2,
           z: Math.random() * width,
           px: 0,
-          py: 0
+          py: 0,
+          color: colors[Math.floor(Math.random() * colors.length)]
         });
       }
     };
@@ -112,7 +114,8 @@ export default function StarWarp({ speed = 2, isWarping = false, className }: St
             const prevPy = star.y * kPrev + cy;
             
             ctx.lineTo(prevPx, prevPy);
-            ctx.strokeStyle = `rgba(255, 255, 255, ${brightness})`;
+            // Use the star's assigned color
+            ctx.strokeStyle = `rgba(${star.color}, ${brightness})`;
             ctx.lineWidth = size;
             ctx.stroke();
           } else {
