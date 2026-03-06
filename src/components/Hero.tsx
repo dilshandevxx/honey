@@ -13,15 +13,7 @@ export default function Hero() {
 
       {/* Main Content */}
       <div className="z-10 flex flex-col items-center text-center space-y-4 sm:space-y-6 md:space-y-8 w-full px-4">
-        {/* Top Tagline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="font-mono text-sm tracking-[0.2em] text-honey-blue/80 uppercase"
-        >
-          Generative AI & Future Tech
-        </motion.p>
+
 
         {/* Central Geometric Element (Replacing 3D for now) */}
         <motion.div

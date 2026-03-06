@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowIcons } from "lucide-react"; // Note: ArrowIcons isn't real, fixing imports
-import { ArrowUpRight, Instagram, Linkedin, Twitter, Github } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
   return (
