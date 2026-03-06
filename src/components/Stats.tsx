@@ -1,33 +1,61 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 const stats = [
   {
     id: "01",
-    value: "15+",
-    label: "Years of Experience",
-    suffix: ""
+    prefix: "$",
+    value: 500,
+    suffix: "M+",
+    label: "Revenue Generated",
   },
   {
     id: "02",
-    value: "200+",
-    label: "Projects Shipped",
-    suffix: ""
+    prefix: "",
+    value: 98,
+    suffix: "%",
+    label: "Client Retention",
   },
   {
     id: "03",
-    value: "500M",
-    label: "User Interactions",
-    suffix: "+"
+    prefix: "",
+    value: 40,
+    suffix: "%",
+    label: "Avg Conversion Lift",
   },
   {
     id: "04",
-    value: "98%",
-    label: "Client Retention",
-    suffix: ""
+    prefix: "",
+    value: 100,
+    suffix: "+",
+    label: "Projects Shipped",
   }
 ];
+
+function AnimatedNumber({ value }: { value: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const motionValue = useMotionValue(0);
+  const springValue = useSpring(motionValue, { duration: 2500, bounce: 0 });
+
+  useEffect(() => {
+    if (inView) {
+      motionValue.set(value);
+    }
+  }, [inView, motionValue, value]);
+
+  useEffect(() => {
+    return springValue.on("change", (latest) => {
+      if (ref.current) {
+        ref.current.textContent = Intl.NumberFormat("en-US").format(Math.floor(latest));
+      }
+    });
+  }, [springValue]);
+
+  return <span ref={ref}>0</span>;
+}
 
 export default function Stats() {
   return (
@@ -70,8 +98,10 @@ export default function Stats() {
                         [ {stat.id} ]
                     </span>
                     
-                    <h3 className="text-7xl lg:text-[6vw] font-bold tracking-tighter leading-none text-white mb-6 group-hover:scale-[1.02] origin-left transition-transform duration-500">
-                        {stat.value}<span className="text-[0.5em] text-white/40 align-baseline">{stat.suffix}</span>
+                    <h3 className="text-7xl lg:text-[6vw] font-bold tracking-tighter leading-none text-white mb-6 group-hover:scale-[1.02] origin-left transition-transform duration-500 whitespace-nowrap">
+                        <span className="text-[0.6em] text-white/60 align-baseline mr-1">{stat.prefix}</span>
+                        <AnimatedNumber value={stat.value} />
+                        <span className="text-[0.5em] text-white/40 align-baseline ml-1">{stat.suffix}</span>
                     </h3>
                     
                     <p className="font-mono text-sm uppercase tracking-[0.2em] text-white/50 leading-[2] group-hover:text-white/80 transition-colors duration-500">

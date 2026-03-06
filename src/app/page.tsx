@@ -3,7 +3,6 @@ import WorkList from "@/components/WorkList";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import About from "@/components/About";
-import Stats from "@/components/Stats";
 import BeforeAfter from "@/components/BeforeAfter";
 import ServicesMarquee from "@/components/ServicesMarquee";
 import Capabilities from "@/components/Capabilities";
@@ -25,8 +24,6 @@ export default function Home() {
       <Hero />
       <TechStack />
       <About />
-      <Stats />
-
       <ServicesMarquee />
       <Capabilities />
 

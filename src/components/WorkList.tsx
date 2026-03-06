@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const projects = [
   {
@@ -8,21 +9,21 @@ const projects = [
     title: "NEURAL SEARCH",
     category: "AI SaaS Platform",
     description: "Enterprise semantic search engine capable of indexing millions of documents with sub-second hybrid retrieval.",
-    image: "/placeholder-1.jpg", 
+    image: "/images/project_neural_new.png", 
   },
   {
     id: "02",
     title: "PREDICTIVE FLOW",
     category: "Machine Learning",
     description: "Supply chain optimization tool reducing logistics overhead by 30% using custom time-series forecasting models.",
-    image: "/placeholder-2.jpg",
+    image: "/images/project_predictive_new.png",
   },
   {
     id: "03",
     title: "SYNTHETIC VISION",
     category: "Computer Vision",
     description: "Automated QC system for manufacturing lines using edge-deployed object detection models.",
-    image: "/placeholder-3.jpg",
+    image: "/images/project_synthetic_new.png",
   },
 ];
 
@@ -52,13 +53,24 @@ export default function WorkList() {
                </p>
 
                <motion.div 
-                 whileHover={{ scale: 0.98 }}
-                 className="w-full aspect-video bg-white/5 rounded-sm border border-white/10 overflow-hidden relative cursor-pointer"
+                 whileHover="hover"
+                 className="w-full aspect-video bg-neutral-900 rounded-sm overflow-hidden relative cursor-pointer border border-white/5"
                >
-                 {/* Placeholder for project image */}
-                 <div className="absolute inset-0 flex items-center justify-center text-white/20 font-mono text-sm">
-                   [PROJECT IMAGE {project.id}]
-                 </div>
+                 <motion.div
+                   variants={{ hover: { scale: 1.05 } }}
+                   transition={{ duration: 0.7, ease: "easeOut" }}
+                   className="w-full h-full relative"
+                 >
+                   <Image 
+                     src={project.image} 
+                     alt={project.title}
+                     fill
+                     className="object-cover opacity-80"
+                   />
+                 </motion.div>
+                 
+                 {/* Internal Gradient Overlay */}
+                 <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-transparent to-transparent pointer-events-none" />
                </motion.div>
             </div>
             
