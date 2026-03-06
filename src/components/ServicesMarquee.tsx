@@ -14,7 +14,7 @@ export default function ServicesMarquee() {
           transition={{
             repeat: Infinity,
             ease: "linear",
-            duration: 20, 
+            duration: 60, // Slowed down significantly for proper reading speed
           }}
         >
           {/* Double the list to create seamless loop */}

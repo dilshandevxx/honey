@@ -117,53 +117,48 @@ export default function BeforeAfter() {
           </motion.div>
 
 
-          {/* ================= SEQUENCE 2: ICONIC CLARITY ================= */}
+          {/* ================= SEQUENCE 2: ICONIC CLARITY (SIMPLE & BEAUTIFUL) ================= */}
           <motion.div 
             style={{ 
                 opacity: clarityOpacity,
                 y: clarityY,
                 pointerEvents: useTransform(scrollYProgress, v => v >= 0.5 ? "auto" : "none") as any
             }}
-            className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 origin-center"
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center origin-center w-full px-6 md:px-12"
           >
-              <div className="mb-24 flex flex-col items-center w-full max-w-5xl">
-                  {/* Minimalist Section Label */}
-                  <span className="font-mono text-xs md:text-sm tracking-[0.4em] uppercase text-white flex items-center gap-6 justify-center mb-8">
-                        <span className="w-12 h-[1px] bg-white/30" />
-                        THE SOLUTION
-                        <span className="w-12 h-[1px] bg-white/30" />
-                   </span>
-                   {/* High Contrast Typography */}
-                   <h2 className="text-[12vw] md:text-[8vw] font-bold tracking-tighter leading-[0.8] text-center uppercase">
-                      <span className="text-white block font-sans tracking-tight drop-shadow-lg">
-                        ICONIC
-                      </span>
-                      <span className="text-neutral-400 block font-sans tracking-tight ml-[10%]">
-                        CLARITY.
-                      </span>
-                   </h2>
-               </div>
+              <div className="w-full max-w-[1000px] flex flex-col items-center relative z-10 text-center">
+                  
+                  {/* Minimal Label */}
+                  <span className="font-mono text-xs md:text-sm tracking-[0.4em] uppercase text-white/50 mb-6">
+                       [ THE SOLUTION ]
+                  </span>
 
-              <div className="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-24 w-full max-w-5xl">
-                  {/* Clarity Card 1 */}
-                  <div className="w-full md:w-1/2 text-left border-t border-neutral-600 pt-8 group cursor-default">
-                      <div className="flex justify-between items-end mb-6">
-                           <h3 className="text-2xl md:text-3xl font-light text-white tracking-tight font-sans transition-colors duration-500">Sell Beautifully.</h3>
-                           <span className="font-mono text-neutral-400 text-xs tracking-[0.2em] group-hover:text-white transition-colors duration-500">[01]</span>
+                  {/* Clean, Elegant Title */}
+                  <h2 className="text-6xl md:text-8xl lg:text-[9vw] font-bold tracking-tighter leading-none text-white mb-20 drop-shadow-2xl">
+                       ICONIC CLARITY.
+                  </h2>
+
+                  {/* Simple Cards Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 w-full text-left">
+                      
+                      {/* Card 1 */}
+                      <div className="flex flex-col border-t border-white/20 pt-8">
+                          <span className="font-mono text-white/40 text-sm mb-4">01</span>
+                          <h3 className="text-3xl font-light text-white mb-4 tracking-tight">Sell Beautifully.</h3>
+                          <p className="font-sans text-sm md:text-base leading-[2] text-white/60 font-light">
+                              It's not creative unless it sells. Every work is built like a precision machine. Speed meets aesthetic perfection. We build legendary assets designed for ultimate performance.
+                          </p>
                       </div>
-                      <p className="font-mono text-sm md:text-base leading-[2] text-neutral-400 group-hover:text-white transition-colors duration-500">
-                          It's not creative unless it sells. Every work is built like a Ferrari. Speed meets precision.
-                      </p>
-                  </div>
-                  {/* Clarity Card 2 */}
-                  <div className="w-full md:w-1/2 text-left border-t border-neutral-600 pt-8 group cursor-default">
-                      <div className="flex justify-between items-end mb-6">
-                           <h3 className="text-2xl md:text-3xl font-light text-white tracking-tight font-sans transition-colors duration-500">Produce More.</h3>
-                           <span className="font-mono text-neutral-400 text-xs tracking-[0.2em] group-hover:text-white transition-colors duration-500">[02]</span>
+
+                      {/* Card 2 */}
+                      <div className="flex flex-col border-t border-white/20 pt-8">
+                          <span className="font-mono text-white/40 text-sm mb-4">02</span>
+                          <h3 className="text-3xl font-light text-white mb-4 tracking-tight">Produce More.</h3>
+                          <p className="font-sans text-sm md:text-base leading-[2] text-white/60 font-light">
+                              Picasso produced 50,000 works. We match that prolific energy. In 90 days, you'll outpace years of your competition. Velocity is the ultimate luxury.
+                          </p>
                       </div>
-                      <p className="font-mono text-sm md:text-base leading-[2] text-neutral-400 group-hover:text-white transition-colors duration-500">
-                          Picasso produced 50,000 works. We match that prolific energy. In 90 days, you'll outpace years of competition.
-                      </p>
+
                   </div>
               </div>
           </motion.div>
