@@ -25,65 +25,61 @@ export default function Testimonials() {
   return (
     <section className="w-full bg-[#030303] text-white py-32 relative overflow-hidden">
       
-      {/* Background Ambience */}
-      <div className="absolute top-0 right-0 w-[50vh] h-[50vh] bg-honey-blue/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[50vh] h-[50vh] bg-honey-red/5 rounded-full blur-[120px] pointer-events-none" />
-
+      {/* Background Ambience Removed for Ultra-Minimalism */}
+      
       <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10">
         
         {/* Header */}
-        <div className="mb-32 flex flex-col md:flex-row items-end justify-between">
-            <div className="max-w-2xl">
-              <span className="font-mono text-xs text-honey-red tracking-[0.2em] uppercase block mb-6">
-                 [ Client Stories ]
+        <div className="mb-20 md:mb-32 flex flex-col md:flex-row items-end justify-between gap-8 md:gap-0 relative z-10">
+            <div className="max-w-4xl">
+              <span className="font-mono text-sm text-honey-blue tracking-[0.2em] uppercase block mb-12 flex items-center gap-4">
+                 <span className="w-8 h-[1px] bg-honey-blue/50" /> CLIENT STORIES
               </span>
-              <h2 className="text-5xl md:text-8xl font-light tracking-tighter">
-                 Voices form the <br/>
-                 <span className="italic font-serif text-white/50">Vanguard.</span>
+              <h2 className="text-[12vw] sm:text-7xl md:text-8xl lg:text-[7.5rem] font-bold tracking-tighter leading-[0.9] uppercase">
+                 <span className="bg-gradient-to-br from-white via-neutral-200 to-neutral-500 bg-clip-text text-transparent drop-shadow-sm font-sans">
+                   Voices from the
+                 </span>
+                 <br/>
+                 <span className="font-mono italic lowercase bg-gradient-to-r from-honey-blue via-cyan-400 to-honey-blue bg-clip-text text-transparent opacity-90 pb-2 drop-shadow-[0_0_30px_rgba(0,255,255,0.2)]">
+                   vanguard.
+                 </span>
               </h2>
             </div>
-            <div className="hidden md:block mb-4">
-                 <p className="font-mono text-xs text-white/40 uppercase tracking-widest text-right">
+            <div className="hidden lg:block mb-4">
+                 <p className="font-mono text-xs text-white/30 uppercase tracking-[0.2em] text-right leading-[2] border-l border-white/5 pl-8 border-b pb-4">
                      Trusted by Industry Leaders<br/>
                      Global Impact
                  </p>
             </div>
         </div>
 
-        {/* Offset Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+        {/* Ultra-Minimalist List Layout */}
+        <div className="flex flex-col border-t border-white/10 mt-16 md:mt-24">
           {testimonials.map((t, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.2, duration: 0.8 }}
-              className={`relative p-10 md:p-12 rounded-[2rem] bg-white/[0.02] border border-white/5 backdrop-blur-sm group hover:bg-white/[0.04] transition-colors duration-700 ${index === 1 ? 'md:translate-y-24' : ''}`}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ delay: index * 0.1, duration: 1 }}
+              className="group grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 py-16 md:py-24 border-b border-white/10"
             >
-               {/* Hover Gradient Border Effect (Simulated via inset shadow or overlay) */}
-               <div className="absolute inset-0 rounded-[2rem] border border-transparent group-hover:border-white/10 transition-colors duration-700 pointer-events-none" />
-               
-               {/* Quote Icon */}
-               <div className="mb-12 opacity-20 group-hover:opacity-100 group-hover:text-honey-red transition-all duration-500">
-                   <Quote className="w-8 h-8 md:w-12 md:h-12" />
+               {/* Left/Top: Author & Role */}
+               <div className="lg:col-span-4 flex flex-col justify-start">
+                   <h4 className="font-bold text-white text-xl md:text-2xl tracking-tight mb-2 opacity-50 group-hover:opacity-100 transition-opacity duration-700">{t.author}</h4>
+                   <p className="font-mono text-xs md:text-sm text-white/30 uppercase tracking-widest">
+                     {t.role}
+                   </p>
                </div>
-
-               {/* Content */}
-               <div className="relative z-10">
-                   <p className="text-2xl md:text-3xl font-serif leading-snug text-white/90 mb-12 group-hover:text-white transition-colors duration-500">
+               
+               {/* Right/Bottom: The Quote */}
+               <div className="lg:col-span-8 relative">
+                   <div className="absolute -top-6 -left-6 md:-left-12 opacity-10 text-white pointer-events-none group-hover:opacity-20 transition-opacity duration-700">
+                       <Quote className="w-12 h-12 md:w-16 md:h-16" />
+                   </div>
+                   <p className="text-3xl md:text-[3.5rem] font-sans font-light tracking-tight leading-[1.2] text-white/90 group-hover:text-white transition-colors duration-700 max-w-5xl">
                      "{t.quote}"
                    </p>
-                   
-                   <div className="flex items-center gap-4">
-                       <div className="h-px w-8 bg-honey-red/50" />
-                       <div>
-                           <h4 className="font-bold text-white text-sm uppercase tracking-wider">{t.author}</h4>
-                           <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mt-1">
-                             {t.role}
-                           </p>
-                       </div>
-                   </div>
                </div>
             </motion.div>
           ))}
