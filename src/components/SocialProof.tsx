@@ -16,9 +16,6 @@ export default function SocialProof() {
         
         {/* Header */}
         <div className="mb-20">
-          <span className="font-mono text-xs text-honey-red tracking-[0.2em] uppercase block mb-4">
-             [ 07 / 09 ]
-          </span>
           <h2 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase">
              Impact by the <span className="text-transparent stroke-text">Numbers</span>
           </h2>

@@ -31,9 +31,6 @@ export default function FAQ() {
         
         {/* Header */}
         <div className="text-center mb-24">
-            <span className="font-mono text-xs text-honey-red tracking-[0.2em] uppercase block mb-4">
-                 [ 09 / 09 ]
-            </span>
             <h2 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase">
                Interrogations
             </h2>
