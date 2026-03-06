@@ -5,14 +5,14 @@ import { ArrowUpRight } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+    <section className="relative h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden pt-24 pb-12 md:pt-32 md:pb-16">
       {/* Background Elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-honey-blue/5 rounded-full blur-3xl animate-pulse-glow" />
       </div>
 
       {/* Main Content */}
-      <div className="z-10 flex flex-col items-center text-center space-y-12">
+      <div className="z-10 flex flex-col items-center text-center space-y-4 sm:space-y-6 md:space-y-8 w-full px-4">
         {/* Top Tagline */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -28,22 +28,22 @@ export default function Hero() {
            initial={{ scale: 0.8, opacity: 0 }}
            animate={{ scale: 1, opacity: 1 }}
            transition={{ duration: 1, ease: "easeOut" }}
-           className="relative w-48 h-48 md:w-64 md:h-64 flex items-center justify-center"
+           className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 xl:w-48 xl:h-48 flex items-center justify-center"
         >
             <div className="absolute inset-0 border border-honey-blue/30 rounded-full animate-[spin_10s_linear_infinite]" />
-            <div className="absolute inset-4 border border-honey-blue/20 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
-            <div className="w-32 h-32 bg-gradient-to-br from-honey-dark to-honey-black border border-honey-blue/50 rounded-full shadow-[0_0_50px_rgba(0,255,255,0.3)] flex items-center justify-center">
-                <div className="w-2 h-2 bg-honey-blue rounded-full shadow-[0_0_20px_#00FFFF]" />
+            <div className="absolute inset-2 md:inset-4 border border-honey-blue/20 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 xl:w-28 xl:h-28 bg-gradient-to-br from-honey-dark to-honey-black border border-honey-blue/50 rounded-full shadow-[0_0_30px_rgba(0,255,255,0.3)] flex items-center justify-center">
+                <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-honey-blue rounded-full shadow-[0_0_20px_#00FFFF]" />
             </div>
         </motion.div>
 
         {/* Big Headline */}
-        <div className="relative">
+        <div className="relative w-full">
             <motion.h1
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-white"
+            className="text-5xl sm:text-6xl md:text-[5.5rem] lg:text-[7rem] xl:text-[7.5rem] leading-[0.85] font-bold tracking-tighter text-white"
             >
             ENGINEERING
             <br />
