@@ -78,9 +78,9 @@ export default function BeforeAfter() {
                         <span className="w-12 h-[1px] bg-neutral-800" />
                    </span>
                    {/* High Contrast Typography */}
-                  <h2 className="text-[14vw] md:text-[8vw] font-light tracking-tighter leading-[0.85] uppercase text-left">
+                  <h2 className="text-[12vw] md:text-[8vw] font-bold tracking-tighter leading-[0.85] text-center uppercase">
                       <span className="text-white block font-sans tracking-tight">INVISIBLE</span>
-                      <span className="text-neutral-500 block font-serif italic lowercase pl-[10%]">confusion.</span>
+                      <span className="text-neutral-500 block font-sans tracking-tight ml-[10%]">CONFUSION.</span>
                   </h2>
               </div>
 
@@ -134,12 +134,12 @@ export default function BeforeAfter() {
                         <span className="w-12 h-[1px] bg-white/30" />
                    </span>
                    {/* High Contrast Typography */}
-                   <h2 className="text-[14vw] md:text-[10vw] font-bold tracking-tighter leading-[0.8] text-center uppercase">
+                   <h2 className="text-[12vw] md:text-[8vw] font-bold tracking-tighter leading-[0.8] text-center uppercase">
                       <span className="text-white block font-sans tracking-tight drop-shadow-lg">
                         ICONIC
                       </span>
-                      <span className="text-neutral-400 block font-serif italic lowercase font-light ml-[20%]">
-                        clarity.
+                      <span className="text-neutral-400 block font-sans tracking-tight ml-[10%]">
+                        CLARITY.
                       </span>
                    </h2>
                </div>
