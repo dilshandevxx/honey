@@ -134,27 +134,27 @@ export default function BeforeAfter() {
                   </span>
 
                   {/* Clean, Elegant Title */}
-                  <h2 className="text-6xl md:text-8xl lg:text-[9vw] font-bold tracking-tighter leading-none text-white mb-20 drop-shadow-2xl">
+                  <h2 className="text-4xl sm:text-6xl md:text-8xl lg:text-[9vw] font-bold tracking-tighter leading-none text-white mb-12 md:mb-20 drop-shadow-2xl">
                        ICONIC CLARITY.
                   </h2>
 
                   {/* Simple Cards Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 w-full text-left">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-24 w-full text-left max-w-sm md:max-w-none mx-auto">
                       
                       {/* Card 1 */}
-                      <div className="flex flex-col border-t border-white/20 pt-8">
-                          <span className="font-mono text-white/40 text-sm mb-4">01</span>
-                          <h3 className="text-3xl font-light text-white mb-4 tracking-tight">Sell Beautifully.</h3>
-                          <p className="font-sans text-sm md:text-base leading-[2] text-white/60 font-light">
+                      <div className="flex flex-col border-t border-white/20 pt-6 md:pt-8 w-full">
+                          <span className="font-mono text-white/40 text-xs md:text-sm mb-3 md:mb-4">01</span>
+                          <h3 className="text-2xl md:text-3xl font-light text-white mb-3 md:mb-4 tracking-tight">Sell Beautifully.</h3>
+                          <p className="font-sans text-sm md:text-base leading-[1.8] md:leading-[2] text-white/60 font-light">
                               It's not creative unless it sells. Every work is built like a precision machine. Speed meets aesthetic perfection. We build legendary assets designed for ultimate performance.
                           </p>
                       </div>
 
                       {/* Card 2 */}
-                      <div className="flex flex-col border-t border-white/20 pt-8">
-                          <span className="font-mono text-white/40 text-sm mb-4">02</span>
-                          <h3 className="text-3xl font-light text-white mb-4 tracking-tight">Produce More.</h3>
-                          <p className="font-sans text-sm md:text-base leading-[2] text-white/60 font-light">
+                      <div className="flex flex-col border-t border-white/20 pt-6 md:pt-8 w-full">
+                          <span className="font-mono text-white/40 text-xs md:text-sm mb-3 md:mb-4">02</span>
+                          <h3 className="text-2xl md:text-3xl font-light text-white mb-3 md:mb-4 tracking-tight">Produce More.</h3>
+                          <p className="font-sans text-sm md:text-base leading-[1.8] md:leading-[2] text-white/60 font-light">
                               Picasso produced 50,000 works. We match that prolific energy. In 90 days, you'll outpace years of your competition. Velocity is the ultimate luxury.
                           </p>
                       </div>
