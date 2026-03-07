@@ -9,21 +9,21 @@ const projects = [
     title: "NEURAL SEARCH",
     category: "AI SaaS Platform",
     description: "Enterprise semantic search engine capable of indexing millions of documents with sub-second hybrid retrieval.",
-    image: "/images/project_neural_new.png", 
+    image: "/images/project_brutal_1.png", 
   },
   {
     id: "02",
     title: "PREDICTIVE FLOW",
     category: "Machine Learning",
     description: "Supply chain optimization tool reducing logistics overhead by 30% using custom time-series forecasting models.",
-    image: "/images/project_predictive_new.png",
+    image: "/images/project_brutal_2.png",
   },
   {
     id: "03",
     title: "SYNTHETIC VISION",
     category: "Computer Vision",
     description: "Automated QC system for manufacturing lines using edge-deployed object detection models.",
-    image: "/images/project_synthetic_new.png",
+    image: "/images/project_brutal_3.png",
   },
 ];
 
@@ -57,8 +57,8 @@ export default function WorkList() {
                  className="w-full aspect-video bg-neutral-900 rounded-sm overflow-hidden relative cursor-pointer border border-white/5"
                >
                  <motion.div
-                   variants={{ hover: { scale: 1.05 } }}
-                   transition={{ duration: 0.7, ease: "easeOut" }}
+                   variants={{ hover: { scale: 1.02 } }}
+                   transition={{ duration: 1.5, ease: "easeOut" }}
                    className="w-full h-full relative"
                  >
                    <Image 

@@ -30,21 +30,22 @@ export default function Insights() {
       <div className="max-w-[1200px] mx-auto relative z-10 flex flex-col">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 border-b border-white/10 pb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 pb-12">
             <div>
-                <span className="font-mono text-[10px] md:text-xs text-honey-blue tracking-[0.4em] uppercase mb-8 flex items-center gap-6">
-                    <span className="w-12 h-px bg-honey-blue/50" />
+                <span className="font-mono text-[10px] md:text-xs text-white/40 tracking-[0.4em] uppercase mb-8 flex items-center gap-6">
+                    <span className="w-12 h-px bg-white/20" />
                     THE JOURNAL
                 </span>
-                <h2 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none text-white uppercase drop-shadow-lg">
-                    Insights from<br /> the <span className="text-transparent bg-clip-text bg-gradient-to-r from-honey-blue to-cyan-400 font-serif italic lowercase">edge.</span>
+                <h2 className="text-4xl md:text-6xl lg:text-[7vw] font-bold tracking-tighter leading-[0.85] text-white uppercase drop-shadow-md">
+                    Insights from<br /> 
+                    <span className="text-white/40 italic font-serif lowercase">the edge.</span>
                 </h2>
             </div>
             
-            <div className="mt-8 md:mt-0">
-                <a href="#" className="font-mono text-xs uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors flex items-center gap-2 group">
-                    <span className="w-0 h-px bg-white group-hover:w-8 transition-all duration-300" />
-                    Read All Output
+            <div className="mt-12 md:mt-0">
+                <a href="#" className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/50 hover:text-white transition-colors flex items-center gap-4 group pb-4 border-b border-white/10 hover:border-white">
+                    READ ALL OUTPUT
+                    <ArrowRight className="w-4 h-4 text-white/30 group-hover:text-white transition-all duration-300 group-hover:-rotate-45" />
                 </a>
             </div>
         </div>
