@@ -56,9 +56,9 @@ export default function Hero() {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-[12vw] sm:text-[5rem] md:text-[6rem] lg:text-[7rem] xl:text-[8.5rem] leading-[0.85] font-bold tracking-tighter drop-shadow-md text-white"
             >
-              Premium Quality.<br />
+              Engineering Aesthetics.<br />
               <span className="text-white/40">
-                zero compromises.
+                absolute precision.
               </span>
             </motion.h1>
         </div>
