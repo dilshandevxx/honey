@@ -5,80 +5,61 @@ import Image from "next/image";
 
 export default function Architects() {
   return (
-    <section className="w-full bg-[#020202] text-white py-32 px-6 md:px-12 border-t border-white/5 relative overflow-hidden">
+    <section className="w-full bg-[#020202] text-white py-32 md:py-48 px-6 md:px-12 border-t border-white/5 relative overflow-hidden flex flex-col items-center text-center">
       
-      <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center">
-        
-        {/* Minimal Header */}
-        <div className="mb-24 flex flex-col items-center text-center">
-            <span className="font-mono text-[10px] md:text-xs text-white/40 tracking-[0.4em] uppercase mb-8 flex items-center gap-6">
-                <span className="w-12 h-px bg-white/10" />
-                THE ARCHITECTS
-                <span className="w-12 h-px bg-white/10" />
-            </span>
-            <h2 className="text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.85] text-white uppercase drop-shadow-lg">
-                Built By The <br />
-                <span className="text-white/40 italic font-serif lowercase pr-4">obsessed.</span>
-            </h2>
+        {/* Minimal Label */}
+        <span className="font-mono text-[10px] md:text-xs text-white/30 tracking-[0.4em] uppercase mb-16 flex items-center justify-center gap-6 w-full">
+            <span className="w-8 h-px bg-white/10" />
+            THE ARCHITECTS
+            <span className="w-8 h-px bg-white/10" />
+        </span>
+
+        {/* The Massive Quote Centerpiece */}
+        <h2 className="text-3xl md:text-5xl lg:text-7xl font-light tracking-tight leading-[1.2] md:leading-[1.1] text-white max-w-6xl mb-16 px-4 drop-shadow-lg">
+            "We didn't build this agency to blend in. We built it to rip the floorboards out of generic digital marketing and assemble something completely <span className="italic font-serif text-white/50">unstoppable.</span>"
+        </h2>
+
+        {/* The Identity */}
+        <div className="flex flex-col items-center mb-24">
+            <h3 className="text-xl md:text-2xl font-bold tracking-widest uppercase mb-3 text-white/90">Dilshan</h3>
+            <p className="font-mono text-[10px] md:text-xs text-white/40 uppercase tracking-[0.3em] flex items-center gap-4">
+                Founder <span className="w-1 h-1 bg-white/20 rounded-full" /> Chief Architect
+            </p>
         </div>
 
-        {/* Editorial Layout */}
-        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
-                    
-            {/* Left: Founder Stats & Details (Minimalist) */}
-            <div className="lg:col-span-4 flex flex-col order-2 lg:order-1 border-t border-white/10 pt-12 mt-12 lg:mt-0 lg:border-t-0 lg:pt-0">
-                <p className="font-mono text-xs uppercase tracking-[0.2em] text-white/50 mb-12">
-                   Leading the Vanguard
-                </p>
-                
-                <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Dilshan</h3>
-                <p className="font-mono text-[10px] text-white/40 uppercase tracking-[0.3em] mb-12">
-                    Founder & Chief Architect
-                </p>
-
-                <p className="text-lg md:text-xl font-light leading-[1.8] text-white/70 mb-12">
-                    "We didn't build this agency to blend in. We built it to rip the floorboards out of generic digital marketing and assemble something completely unstoppable."
-                </p>
-
-                <div className="grid grid-cols-2 gap-8 border-t border-white/10 pt-8 mt-auto">
-                    <div>
-                        <span className="block font-bold text-3xl mb-1">10+</span>
-                        <span className="font-mono text-[9px] uppercase tracking-widest text-white/40">Years Mastery</span>
-                    </div>
-                    <div>
-                        <span className="block font-bold text-3xl mb-1">50+</span>
-                        <span className="font-mono text-[9px] uppercase tracking-widest text-white/40">Global Brands</span>
-                    </div>
+        {/* The Portrait & Stats Divider */}
+        <div className="w-full max-w-[1000px] flex flex-col md:flex-row items-center justify-center gap-16 md:gap-32 pt-16 border-t border-white/10">
+            
+            {/* Stats (Left on Desktop) */}
+            <div className="flex gap-12 md:gap-20 text-center md:text-left order-2 md:order-1">
+                <div className="flex flex-col">
+                    <span className="text-4xl md:text-5xl font-bold mb-3 tracking-tighter">10+</span>
+                    <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/40">Years Mastery</span>
+                </div>
+                <div className="flex flex-col">
+                    <span className="text-4xl md:text-5xl font-bold mb-3 tracking-tighter">50+</span>
+                    <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/40">Global Brands</span>
                 </div>
             </div>
-
-            {/* Right: Massive Cinematic Portrait */}
-            <div className="lg:col-span-8 order-1 lg:order-2 w-full h-[60vh] md:h-[80vh] bg-[#050505] border border-white/10 rounded-sm relative overflow-hidden group">
-                <motion.div
-                   whileHover={{ scale: 1.03 }}
+            
+            {/* Sleek Portrait Placeholder (Right on Desktop) */}
+            <div className="w-full max-w-[300px] aspect-[4/5] bg-[#050505] border border-white/10 rounded-sm relative overflow-hidden group order-1 md:order-2">
+                 <motion.div
+                   whileHover={{ scale: 1.05 }}
                    transition={{ duration: 1, ease: "easeOut" }}
                    className="w-full h-full relative"
                 >
-                    {/* Placeholder for actual founder photo - needs a striking B&W photo */}
-                    <div className="absolute inset-0 flex items-center justify-center bg-neutral-900">
-                         <span className="font-mono text-sm text-white/20 tracking-widest uppercase">
-                             [ High-End B&W Founder Portrait ]
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-neutral-900/50 p-6 text-center">
+                         <span className="font-mono text-[10px] text-white/20 tracking-widest uppercase leading-loose border border-white/10 px-4 py-2">
+                             High-End<br/>Portrait
                          </span>
                     </div>
-                    
-                    {/* Dark gradient mapping to make text pop if overlaying */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-[#020202]/20 to-transparent pointer-events-none opacity-80" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-transparent to-transparent pointer-events-none opacity-50" />
                 </motion.div>
-                
-                {/* Decorative Elements on Photo */}
-                <div className="absolute bottom-8 right-8 font-mono text-[10px] text-white/30 tracking-[0.4em] uppercase text-right pointer-events-none">
-                    LOCATION: LKA<br />
-                    EST: 2024
-                </div>
             </div>
 
         </div>
-      </div>
+
     </section>
   );
 }
