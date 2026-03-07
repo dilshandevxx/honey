@@ -49,18 +49,18 @@ export default function Hero() {
         </motion.div>
 
         {/* Big Headline */}
-        <div className="relative w-full px-2 sm:px-0 z-10">
+        <div className="relative w-full px-2 sm:px-0 z-10 flex flex-col items-center text-center mt-8 md:mt-12">
             <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[14.5vw] sm:text-[6rem] md:text-[7.5rem] lg:text-[8.5rem] xl:text-[9.5rem] leading-[0.85] font-black tracking-tighter uppercase"
+            className="text-[14.5vw] sm:text-[6rem] md:text-[7.5rem] lg:text-[8.5rem] xl:text-[9.5rem] leading-[0.85] font-bold tracking-tighter uppercase drop-shadow-md"
             >
-              <span className="bg-gradient-to-br from-white via-neutral-200 to-neutral-500 bg-clip-text text-transparent drop-shadow-sm">
+              <span className="text-white">
                 ENGINEERING
               </span>
               <br />
-              <span className="bg-gradient-to-r from-honey-blue via-cyan-400 to-honey-blue bg-clip-text text-transparent opacity-90 pb-2 drop-shadow-[0_0_30px_rgba(0,255,255,0.2)]">
+              <span className="text-white/40">
                 INTELLIGENCE
               </span>
             </motion.h1>
