@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 const projects = [
   {
@@ -76,6 +78,22 @@ export default function WorkList() {
             
           </div>
         ))}
+
+        {/* View All Output Link */}
+        <div className="flex justify-center mt-32 pt-16 border-t border-white/5">
+            <Link 
+                href="/projects"
+                className="group flex flex-col items-center gap-6 cursor-pointer"
+            >
+                <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-500">
+                    <ArrowRight className="w-6 h-6 text-white/40 group-hover:text-black transition-colors duration-500 group-hover:-rotate-45" />
+                </div>
+                <span className="font-mono text-xs text-white/40 uppercase tracking-[0.3em] group-hover:text-white transition-colors duration-500">
+                    View All Output
+                </span>
+            </Link>
+        </div>
+
       </div>
     </section>
   );

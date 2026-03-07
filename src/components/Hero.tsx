@@ -54,14 +54,11 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[14.5vw] sm:text-[6rem] md:text-[7.5rem] lg:text-[8.5rem] xl:text-[9.5rem] leading-[0.85] font-bold tracking-tighter uppercase drop-shadow-md"
+            className="text-[12vw] sm:text-[5rem] md:text-[6rem] lg:text-[7rem] xl:text-[8.5rem] leading-[0.85] font-bold tracking-tighter drop-shadow-md text-white"
             >
-              <span className="text-white">
-                ENGINEERING
-              </span>
-              <br />
+              Premium Quality.<br />
               <span className="text-white/40">
-                INTELLIGENCE
+                zero compromises.
               </span>
             </motion.h1>
         </div>
