@@ -45,8 +45,8 @@ export default function Investment() {
             </div>
         </div>
 
-        {/* High-End Horizontal Tiers */}
-        <div className="flex flex-col border-t border-white/10 mt-16">
+        {/* High-End Vertical Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 w-full mt-16 max-w-5xl mx-auto">
             {tiers.map((tier, index) => (
                 <motion.div
                     key={index}
@@ -54,32 +54,36 @@ export default function Investment() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1, duration: 0.8, ease: "easeOut" }}
-                    className="group border-b border-white/10 py-16 md:py-24 hover:bg-white/[0.02] transition-colors duration-500 cursor-default px-4 -mx-4"
+                    className="group border border-white/10 p-10 md:p-16 hover:bg-white/[0.02] transition-colors duration-500 cursor-default flex flex-col relative overflow-hidden bg-[#030303]"
                 >
-                    <div className="flex flex-col lg:flex-row lg:items-baseline justify-between gap-8 lg:gap-16">
-                        
-                        {/* Target & Name */}
-                        <div className="flex flex-col lg:w-1/2">
-                            <span className="font-mono text-[10px] md:text-xs text-white/30 uppercase tracking-[0.3em] mb-6 flex items-center gap-4">
-                                <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors duration-500" />
-                                {tier.target}
-                            </span>
-                            <h3 className="text-4xl sm:text-6xl md:text-7xl font-light tracking-tighter group-hover:translate-x-4 transition-transform duration-700">
-                                {tier.name}
-                            </h3>
-                        </div>
+                    {/* Subtle Hover Glow */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                    
+                    {/* Top Label */}
+                    <span className="font-mono text-[10px] text-white/40 uppercase tracking-[0.3em] mb-12 flex items-center gap-4 relative z-10">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors duration-500" />
+                        {tier.target}
+                    </span>
+                    
+                    {/* Title */}
+                    <h3 className="text-3xl md:text-5xl font-light tracking-tight mb-8 relative z-10">
+                        {tier.name}
+                    </h3>
 
-                        {/* Price & Description */}
-                        <div className="flex flex-col lg:w-1/2 lg:text-right mt-8 lg:mt-0">
-                            <span className="text-4xl md:text-5xl font-bold tracking-tight mb-8 group-hover:text-white transition-colors duration-500">
-                                {tier.price}
-                            </span>
-                            <p className="font-mono text-sm leading-[2] text-white/50 lg:ml-auto max-w-md group-hover:text-white/80 transition-colors duration-500">
-                                {tier.description}
-                            </p>
-                        </div>
-
+                    {/* Price */}
+                    <div className="flex items-baseline mb-12 relative z-10">
+                        <span className="text-4xl md:text-6xl font-bold tracking-tighter group-hover:scale-105 origin-left transition-transform duration-500">
+                            {tier.price}
+                        </span>
                     </div>
+
+                    {/* Divider */}
+                    <div className="w-full h-px bg-white/10 mt-auto mb-8 relative z-10" />
+
+                    {/* Description */}
+                    <p className="font-sans text-sm md:text-base leading-[2] text-white/50 group-hover:text-white/80 transition-colors duration-500 relative z-10">
+                        {tier.description}
+                    </p>
                 </motion.div>
             ))}
         </div>
