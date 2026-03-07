@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import Ethos from "@/components/Ethos";
 import WorkList from "@/components/WorkList";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -12,6 +13,9 @@ import TechStack from "@/components/TechStack";
 import Process from "@/components/Process";
 
 // New Sections
+import Architects from "@/components/Architects";
+import Insights from "@/components/Insights";
+import Investment from "@/components/Investment";
 import SocialProof from "@/components/SocialProof";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
@@ -22,6 +26,7 @@ export default function Home() {
     <main className="min-h-screen bg-honey-black">
       <Header />
       <Hero />
+      <Ethos />
       <TechStack />
       <About />
       <ServicesMarquee />
@@ -29,9 +34,12 @@ export default function Home() {
 
       <WorkList />
       <Process />
+      <Architects />
       <BeforeAfter />
       <SocialProof />
       <Testimonials />
+      <Insights />
+      <Investment />
       <FAQ />
       <FinalCTA />
       <Footer />
