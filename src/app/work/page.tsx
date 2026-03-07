@@ -101,13 +101,18 @@ export default function WorkPage() {
             </motion.div>
 
             {/* Filter Bar */}
-            <div className="flex flex-wrap gap-4 mb-24 sticky top-24 z-20 mix-blend-difference">
-              <div className="p-1.5 bg-white/5 backdrop-blur-md rounded-full border border-white/10 flex gap-2">
+            <div className="flex w-full mb-12 md:mb-24 sticky top-24 z-20 mix-blend-difference overflow-x-auto pb-4 -mx-6 px-6 md:mx-0 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <style jsx>{`
+                div::-webkit-scrollbar {
+                  display: none;
+                }
+              `}</style>
+              <div className="w-fit p-1 md:p-1.5 bg-white/5 backdrop-blur-md rounded-full border border-white/10 flex gap-1 md:gap-2">
                 {filters.map(filter => (
                   <button 
                     key={filter}
                     onClick={() => setActiveFilter(filter)}
-                    className="relative px-6 py-2 rounded-full text-xs font-mono tracking-widest uppercase transition-colors"
+                    className="relative px-5 py-2.5 md:px-6 md:py-2 rounded-full text-[10px] md:text-xs font-mono tracking-widest uppercase transition-colors whitespace-nowrap"
                   >
                     {activeFilter === filter && (
                       <motion.div 

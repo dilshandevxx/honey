@@ -36,9 +36,9 @@ export default function Insights() {
                     <span className="w-12 h-px bg-white/20" />
                     THE JOURNAL
                 </span>
-                <h2 className="text-4xl md:text-6xl lg:text-[7vw] font-bold tracking-tighter leading-[0.85] text-white uppercase drop-shadow-md">
+                <h2 className="text-4xl md:text-6xl lg:text-[7vw] font-bold tracking-tighter leading-[0.85] drop-shadow-md text-white">
                     Insights from<br /> 
-                    <span className="text-white/40 italic font-serif lowercase">the edge.</span>
+                    <span className="text-white/40">the edge.</span>
                 </h2>
             </div>
             
